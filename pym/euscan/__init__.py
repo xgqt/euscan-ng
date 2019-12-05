@@ -44,13 +44,14 @@ BLACKLIST_VERSIONS = [
     # Compatibility package for running binaries linked against a
     # pre gcc 3.4 libstdc++, won't be updated
     '>=sys-libs/libstdc++-v3-3.4',
+    # Actually older or incorrect
+    '~app-backup/backup-manager-0.7.15',
+    '=x11-plugins/wmacpimon-001',
 ]
 
 BLACKLIST_PACKAGES = [
     # These kernels are almost dead
-    'sys-kernel/usermode-sources',
     'sys-kernel/xbox-sources',
-    'sys-kernel/cell-sources',
 ]
 
 SCANDIR_BLACKLIST_URLS = [
@@ -66,7 +67,6 @@ BRUTEFORCE_BLACKLIST_PACKAGES = [
 ]
 
 BRUTEFORCE_BLACKLIST_URLS = [
-    'http://(.*)dockapps.org/download.php/id/(.*)',  # infinite loop
     'http://hydra.nixos.org/build/(.*)',  # infinite loop
     # Doesn't respect 404, infinite loop
     'http://www.rennings.net/gentoo/distfiles/(.*)',
@@ -78,7 +78,6 @@ BRUTEFORCE_BLACKLIST_URLS = [
 ROBOTS_TXT_BLACKLIST_DOMAINS = [
     '(.*)sourceforge(.*)',
     '(.*)github.com',
-    '(.*)berlios(.*)',
     '(.*)qt\.nokia\.com(.*)',
     '(.*)chromium\.org(.*)',
     '(.*)nodejs\.org(.*)',

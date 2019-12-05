@@ -95,7 +95,7 @@ def version_blacklisted(cp, version):
             None
 
     if rule:
-        euscan.output.einfo("%s is blacklisted by rule %s" % (cpv, bv))
+        euscan.output.einfo("%s is blacklisted by rule %s" % (cpv, rule))
     return rule is not None
 
 
