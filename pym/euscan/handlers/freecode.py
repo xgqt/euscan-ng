@@ -1,4 +1,4 @@
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import re
 
 import portage
@@ -21,7 +21,7 @@ def scan_pkg(pkg, options):
 
     output.einfo("Using FreeCode handler: " + package)
 
-    fp = urllib.urlopen("http://freecode.com/projects/%s/releases" % package)
+    fp = urllib.request.urlopen("http://freecode.com/projects/%s/releases" % package)
     content = fp.read()
 
     result = re.findall(
@@ -34,11 +34,11 @@ def scan_pkg(pkg, options):
         pv = mangling.mangle_version(up_pv, options)
         if helpers.version_filtered(cp, ver, pv):
             continue
-        fp = urllib.urlopen("http://freecode.com/projects/%s/releases/%s" %
+        fp = urllib.request.urlopen("http://freecode.com/projects/%s/releases/%s" %
                             (package, release_id))
         content = fp.read()
         download_page = re.findall(r'<a href="(/urls/[^"]+)"', content)[0]
-        fp = urllib.urlopen("http://freecode.com%s" % download_page)
+        fp = urllib.request.urlopen("http://freecode.com%s" % download_page)
         content = fp.read()
         url = re.findall(
             r'In case it doesn\'t, click here: <a href="([^"]+)"',

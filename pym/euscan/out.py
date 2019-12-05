@@ -230,16 +230,16 @@ class EuscanOutput(object):
             )
         else:
             if not self.config['quiet']:
-                print "Upstream Version:", pp.number("%s" % version),
-                print pp.path(" %s" % urls)
+                print("Upstream Version:", pp.number("%s" % version), end=' ')
+                print(pp.path(" %s" % urls))
             else:
-                print pp.cpv("%s-%s" % (cp, version)) + ":", pp.path(urls)
+                print(pp.cpv("%s-%s" % (cp, version)) + ":", pp.path(urls))
 
     def metadata(self, key, value, show=True):
         if self.config["format"]:
             self.queries[self.current_query]["metadata"][key] = value
         elif show:
-            print "%s: %s" % (key.capitalize(), value)
+            print("%s: %s" % (key.capitalize(), value))
 
     def __getattr__(self, key):
         if not self.config["quiet"] and self.current_query is not None:

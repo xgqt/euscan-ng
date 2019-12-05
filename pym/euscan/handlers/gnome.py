@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 try:
     import simplejson as json
@@ -47,7 +47,7 @@ def scan_pkg(pkg, options):
 
     output.einfo("Using Gnome json cache: " + package)
 
-    fp = urllib2.urlopen('/'.join([GNOME_URL_SOURCE, package, 'cache.json']))
+    fp = urllib.request.urlopen('/'.join([GNOME_URL_SOURCE, package, 'cache.json']))
     content = fp.read()
     fp.close()
 

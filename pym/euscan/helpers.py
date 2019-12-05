@@ -1,7 +1,7 @@
 import os
 import re
 import errno
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from xml.dom.minidom import Document
 
 import portage
@@ -11,8 +11,8 @@ try:
     from urllib import robotparser
     from urllib import urlparse
 except ImportError:
-    import robotparser
-    import urlparse
+    import urllib.robotparser
+    import urllib.parse
 
 import euscan
 from euscan import CONFIG, BLACKLIST_VERSIONS, ROBOTS_TXT_BLACKLIST_DOMAINS
@@ -173,7 +173,7 @@ def url_from_template(url, version):
 # Used for brute force to increment the version
 def split_version(version):
     component_re = re.compile(r'(\d+ | [a-z]+ | \.)', re.VERBOSE)
-    components = filter(lambda x: x and x != '.', component_re.split(version))
+    components = [x for x in component_re.split(version) if x and x != '.']
     for i in range(len(components)):
         try:
             components[i] = int(components[i])
@@ -236,7 +236,7 @@ def timeout_for_url(url):
     return timeout
 
 
-class HeadRequest(urllib2.Request):
+class HeadRequest(urllib.request.Request):
     def get_method(self):
         return "HEAD"
 
@@ -249,7 +249,7 @@ def urlallowed(url):
     if CONFIG['skip-robots-txt']:
         return True
 
-    protocol, domain = urlparse.urlparse(url)[:2]
+    protocol, domain = urllib.parse.urlparse(url)[:2]
 
     for bd in ROBOTS_TXT_BLACKLIST_DOMAINS:
         if re.match(bd, domain):
@@ -263,7 +263,7 @@ def urlallowed(url):
         return True
 
     baseurl = '%s://%s' % (protocol, domain)
-    robotsurl = urlparse.urljoin(baseurl, 'robots.txt')
+    robotsurl = urllib.parse.urljoin(baseurl, 'robots.txt')
 
     if baseurl in rpcache:
         rp = rpcache[baseurl]
@@ -273,7 +273,7 @@ def urlallowed(url):
         timeout = getdefaulttimeout()
         setdefaulttimeout(5)
 
-        rp = robotparser.RobotFileParser()
+        rp = urllib.robotparser.RobotFileParser()
         rp.set_url(robotsurl)
         try:
             rp.read()
@@ -295,7 +295,7 @@ def urlopen(url, timeout=None, verb="GET"):
         timeout = timeout_for_url(url)
 
     if verb == 'GET':
-        request = urllib2.Request(url)
+        request = urllib.request.Request(url)
     elif verb == 'HEAD':
         request = HeadRequest(url)
     else:
@@ -311,9 +311,9 @@ def urlopen(url, timeout=None, verb="GET"):
 
     if CONFIG['verbose']:
         debuglevel = CONFIG['verbose'] - 1
-        handlers.append(urllib2.HTTPHandler(debuglevel=debuglevel))
+        handlers.append(urllib.request.HTTPHandler(debuglevel=debuglevel))
 
-    opener = urllib2.build_opener(*handlers)
+    opener = urllib.request.build_opener(*handlers)
 
     return opener.open(request, None, timeout)
 
@@ -361,7 +361,7 @@ def tryurl(fileurl, template):
             if result:
                 result = (fp.geturl(), fp.info())
 
-    except urllib2.URLError:
+    except urllib.error.URLError:
         result = None
     except IOError:
         result = None
@@ -462,7 +462,7 @@ def dict_to_xml(data, indent):
 
     def _set_value(parent, value):
         if isinstance(value, dict):
-            for k, v in value.iteritems():
+            for k, v in list(value.items()):
                 node = doc.createElement(k)
                 _set_value(node, v)
                 parent.appendChild(node)
@@ -473,10 +473,10 @@ def dict_to_xml(data, indent):
                 node.appendChild(text)
                 parent.appendChild(node)
         else:
-            text = doc.createTextNode(unicode(value))
+            text = doc.createTextNode(str(value))
             parent.appendChild(text)
 
-    for key, value in data.iteritems():
+    for key, value in list(data.items()):
         node = doc.createElement("package")
         node.setAttribute("name", key)
         _set_value(node, value)

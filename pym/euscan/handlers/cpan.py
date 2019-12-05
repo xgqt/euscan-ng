@@ -1,6 +1,6 @@
 import re
 import portage
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import json
 
 from euscan import helpers, output, mangling
@@ -52,7 +52,7 @@ def mangle_version(up_pv):
 
     if len(splitted) == 2:  # Split second part is sub-groups
         part = splitted.pop()
-        for i in xrange(0, len(part), 3):
+        for i in range(0, len(part), 3):
             splitted.append(part[i:i + 3])
 
     if len(splitted) == 2:  # add last group if it's missing
@@ -117,7 +117,7 @@ def scan_pkg(pkg, options):
 
     try:
         fp = helpers.urlopen(url)
-    except urllib2.URLError:
+    except urllib.error.URLError:
         return []
     except IOError:
         return []

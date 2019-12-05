@@ -143,7 +143,7 @@ def gentoo_mangle_version(up_pv):
         rev = rev_match.group(3)
         additional_version = '_p' + rev
 
-    for this_suf in suf_matches.keys():
+    for this_suf in list(suf_matches.keys()):
         if rs_match:
             break
         for regex in suf_matches[this_suf]:

@@ -5,7 +5,7 @@
 
 __version__ = "git"
 
-import ConfigParser
+import configparser
 import os
 from ast import literal_eval
 
@@ -33,7 +33,7 @@ CONFIG = {
     'handlers-exclude': [],
 }
 
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read(['/etc/euscan.conf', os.path.expanduser('~/.euscan.conf')])
 if config.has_section("euscan"):
     for key, value in config.items("euscan"):
@@ -88,5 +88,5 @@ ROBOTS_TXT_BLACKLIST_DOMAINS = [
     '(.*)festvox\.org(.*)',
 ]
 
-from out import EuscanOutput
+from euscan.out import EuscanOutput
 output = EuscanOutput(CONFIG)

@@ -1,4 +1,4 @@
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import re
 import bz2
 import zlib
@@ -23,7 +23,7 @@ def scan_pkg(pkg, options):
 
     output.einfo("Using Debian Packages: " + packages_url)
 
-    fp = urllib.urlopen(packages_url)
+    fp = urllib.request.urlopen(packages_url)
     content = fp.read()
 
     # Support for .gz and .bz2 Packages file

@@ -68,7 +68,7 @@ def get_metadata(pkg):
             output.einfo('Using custom metadata: %s' % meta_override)
         if not pkg_metadata:
             pkg_metadata = pkg.metadata
-    except Exception, e:
+    except Exception as e:
         output.ewarn('Error when fetching metadata: %s' % str(e))
 
     if not pkg_metadata:
@@ -183,7 +183,7 @@ def scan(pkg, urls, on_progress=None):
     metadata = get_metadata(pkg)
     versions = []
 
-    pkg_handlers = find_handlers('package', metadata.keys())
+    pkg_handlers = find_handlers('package', list(metadata.keys()))
     if not pkg_handlers:
         pkg_handler = find_best_handler('package', pkg)
         if pkg_handler:

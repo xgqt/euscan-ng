@@ -1,5 +1,5 @@
 import re
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 import portage
 
@@ -34,7 +34,7 @@ def scan_url(pkg, url, options):
     project, filename = re.search(berlios_regex, url).groups()
 
     project_page = "http://developer.berlios.de/projects/%s" % project
-    content = urllib.urlopen(project_page).read()
+    content = urllib.request.urlopen(project_page).read()
 
     project_id = re.search(
         r"/project/filelist.php\?group_id=(\d+)",

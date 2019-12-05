@@ -1,4 +1,4 @@
-import xmlrpclib
+import xmlrpc.client
 import re
 
 import portage
@@ -36,7 +36,7 @@ def scan_pkg(pkg, options):
 
     output.einfo("Using PyPi XMLRPC: " + package)
 
-    client = xmlrpclib.ServerProxy('https://pypi.python.org/pypi')
+    client = xmlrpc.client.ServerProxy('https://pypi.python.org/pypi')
     versions = client.package_releases(package)
 
     if not versions:

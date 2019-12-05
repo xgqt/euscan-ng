@@ -1,5 +1,5 @@
 import json
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import re
 
 import portage
@@ -41,7 +41,7 @@ def scan_url(pkg, url, options):
     output.einfo("Using github API for: project=%s user=%s filename=%s" % \
                  (project, user, filename))
 
-    dlreq = urllib2.urlopen('https://api.github.com/repos/%s/%s/downloads' % \
+    dlreq = urllib.request.urlopen('https://api.github.com/repos/%s/%s/downloads' % \
                             (user, project))
     dls = json.load(dlreq)
 

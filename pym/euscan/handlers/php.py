@@ -1,6 +1,6 @@
 import re
 import portage
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import xml.dom.minidom
 
 from euscan import helpers, output, mangling
@@ -40,7 +40,7 @@ def scan_pkg(pkg, options):
 
     try:
         fp = helpers.urlopen(url)
-    except urllib2.URLError:
+    except urllib.error.URLError:
         return []
     except IOError:
         return []

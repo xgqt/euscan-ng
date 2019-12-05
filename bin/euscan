@@ -4,7 +4,7 @@
 Distributed under the terms of the GNU General Public License v2
 """
 
-from __future__ import print_function
+
 import os
 
 # Meta
@@ -21,7 +21,7 @@ __description__ = "A tool to detect new upstream releases."
 import sys
 import getopt
 from errno import EINTR, EINVAL
-from httplib import HTTPConnection
+from http.client import HTTPConnection
 
 from portage import settings
 from portage.output import white, yellow, turquoise, green
@@ -270,7 +270,7 @@ def main():
     on_progress = None
     if CONFIG['progress']:
         on_progress_gen = progress_bar()
-        on_progress = on_progress_gen.next()
+        on_progress = next(on_progress_gen)
         on_progress(maxval=len(queries) * 100, increment=0, label="Working...")
 
     # Importing stuff here for performance reasons
@@ -322,7 +322,7 @@ def main():
             print("")
 
     if CONFIG['progress']:
-        on_progress_gen.next()
+        next(on_progress_gen)
         print("\n", file=sys.stderr)
 
     output.set_query(None)

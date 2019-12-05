@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
+
 
 import re
 import sys
@@ -46,7 +46,7 @@ class set_version(Command):
 
     def run(self):
         ver = 'git' if __version__ == '9999' else __version__
-        print("Settings version to %s" % ver)
+        print(("Settings version to %s" % ver))
 
         def sub(files, pattern):
             for f in files:

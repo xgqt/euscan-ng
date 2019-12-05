@@ -1,7 +1,7 @@
 import re
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
-import generic
+from euscan.handlers import generic
 from euscan import output, helpers
 
 PRIORITY = 100
@@ -37,7 +37,7 @@ def handle_directory_patterns(base, file_pattern):
 
     try:
         fp = helpers.urlopen(basedir)
-    except urllib2.URLError:
+    except urllib.error.URLError:
         return []
     except IOError:
         return []

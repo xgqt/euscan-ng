@@ -1,7 +1,7 @@
-from urlparse import urljoin, urlparse
-import urllib2
+from urllib.parse import urljoin, urlparse
+import urllib.request, urllib.error, urllib.parse
 import re
-import StringIO
+import io
 import difflib
 
 try:
@@ -75,7 +75,7 @@ def scan_html(data, url, pattern):
 
 
 def scan_ftp(data, url, pattern):
-    buf = StringIO.StringIO(data)
+    buf = io.StringIO(data)
     results = []
 
     for line in buf.readlines():
@@ -102,7 +102,7 @@ def scan_directory_recursive(cp, ver, rev, url, steps, orig_url, options):
 
     try:
         fp = helpers.urlopen(url)
-    except urllib2.URLError:
+    except urllib.error.URLError:
         return []
     except IOError:
         return []
