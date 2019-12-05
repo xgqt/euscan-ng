@@ -22,7 +22,7 @@ def scan_pkg(pkg, options):
     output.einfo("Using FreeCode handler: " + package)
 
     fp = urllib.request.urlopen("http://freecode.com/projects/%s/releases" % package)
-    content = fp.read()
+    content = str(fp.read())
 
     result = re.findall(
         r'<a href="/projects/%s/releases/(\d+)">([^<]+)</a>' % package,
@@ -36,10 +36,10 @@ def scan_pkg(pkg, options):
             continue
         fp = urllib.request.urlopen("http://freecode.com/projects/%s/releases/%s" %
                             (package, release_id))
-        content = fp.read()
+        content = str(fp.read())
         download_page = re.findall(r'<a href="(/urls/[^"]+)"', content)[0]
         fp = urllib.request.urlopen("http://freecode.com%s" % download_page)
-        content = fp.read()
+        content = str(fp.read())
         url = re.findall(
             r'In case it doesn\'t, click here: <a href="([^"]+)"',
             content

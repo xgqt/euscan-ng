@@ -52,7 +52,7 @@ def confidence_score(found, original, minimum=CONFIDENCE):
 
 
 def scan_html(data, url, pattern):
-    soup = BeautifulSoup(data)
+    soup = BeautifulSoup(data, features="lxml")
     results = []
 
     for link in soup.findAll('a'):
@@ -114,7 +114,7 @@ def scan_directory_recursive(cp, ver, rev, url, steps, orig_url, options):
 
     results = []
 
-    if re.search("<\s*a\s+[^>]*href", data, re.I):
+    if re.search(b"<\s*a\s+[^>]*href", data, re.I):
         results.extend(scan_html(data, url, pattern))
     elif url.startswith('ftp://'):
         results.extend(scan_ftp(data, url, pattern))
