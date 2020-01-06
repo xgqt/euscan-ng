@@ -206,7 +206,7 @@ def parse_args():
 
     # here are the different allowed command line options (getopt args)
     getopt_options = {'short': {}, 'long': {}}
-    getopt_options['short']['global'] = "hVCqv1bf:piI"
+    getopt_options['short']['global'] = "hVCqv1b:f:piI"
     getopt_options['long']['global'] = [
         "help", "version", "nocolor", "quiet", "verbose", "oneshot",
         "brute-force=", "format=", "progress", "mirror", "ignore-pre-release",
