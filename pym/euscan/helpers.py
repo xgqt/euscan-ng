@@ -337,10 +337,12 @@ def tryurl(fileurl, template):
 
         headers = fp.info()
 
-        if 'Content-disposition' in headers and \
-           basename not in headers['Content-disposition']:
-            result = None
-        elif 'Content-Length' in headers and headers['Content-Length'] == '0':
+        # Some URLs return Content-disposition with different filename
+        # Disable check for now (I have no seen false positives)
+        #if 'Content-disposition' in headers and \
+        #   basename not in headers['Content-disposition']:
+        #    result = None
+        if 'Content-Length' in headers and headers['Content-Length'] == '0':
             result = None
         elif 'Content-Type' in headers and \
              'text/html' in headers['Content-Type']:
