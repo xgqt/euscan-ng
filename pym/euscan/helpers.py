@@ -384,7 +384,7 @@ def regex_from_template(template):
 
     # Replace ${\d+}
     #regexp = regexp.replace('${0}', r'([\d]+?)')
-    regexp = re.sub(r'(\$\{\d+\}(\.?))+', r'([\w\.]+?)', regexp)
+    regexp = re.sub(r'(\$\{\d+\}(\.?))+', r'([\\w\.]+?)', regexp)
 
     #regexp = re.sub(r'(\$\{\d+\}\.?)+', r'([\w]+?)', regexp)
     #regexp = re.sub(r'(\$\{\d+\}\.+)+', '(.+?)\.', regexp)
