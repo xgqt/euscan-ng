@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 
-
 import re
 import sys
 from distutils import log
@@ -14,6 +13,7 @@ from glob import glob
 import os
 from os.path import join, dirname
 import io
+
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'pym'))
 
@@ -89,22 +89,29 @@ setup(
     ),
     install_requires=[
         # Command line utility
-        'BeautifulSoup>=3.2.1',
+        'beautifulsoup4>=4.8.2',
         # Web interface
-        'Django>=1.4', 'django-annoying>=0.7.6', 'South>=0.7',
-        'django-piston>=0.2.3', 'matplotlib>=1.1.0',
-        'django-celery>=3.0.1', 'django-registration>=0.8',
-        'python-ldap>=2.4.10', 'django-auth-ldap>=1.1',
-        'django-recaptcha>=0.0.4', 'ansi2html>=0.9.1',
+        'Django>=1.4',
+        'South>=0.7',
+        'ansi2html>=0.9.1',
+        'django-annoying>=0.7.6',
+        'django-auth-ldap>=1.1',
+        'django-celery>=3.0.1',
+        'django-piston>=0.2.3',
+        'django-recaptcha>=0.0.4',
+        'django-registration>=0.8',
+        'matplotlib>=1.1.0',
+        'python-ldap>=2.4.10',
     ],
     package_dir={'': 'pym'},
     packages=packages,
     package_data={},
     scripts=python_scripts,
-    data_files=(
-        (os.path.join(os.sep, EPREFIX.lstrip(os.sep), 'usr/share/man/man1'),
-        glob('man/*')),
-    ),
+    # enable user install
+    # data_files=(
+    #     (os.path.join(os.sep, EPREFIX.lstrip(os.sep), 'usr/share/man/man1'),
+    #     glob('man/*')),
+    # ),
     cmdclass={
         'set_version': set_version,
     },

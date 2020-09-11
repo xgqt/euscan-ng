@@ -1,8 +1,11 @@
-What is euscan ?
-================
+What is euscan-ng ?
+===================
 
-dev-portage/euscan
-==================
+dev-portage/euscan-ng
+=====================
+
+euscan-ng is a fork of Bernard Cafarelli's euscan: https://github.com/voyageur/euscan
+which is a fork of Corentin Chary's euscan: https://github.com/iksaif/euscan
 
 euscan is available in portage as a dev package (app-portage/euscan-9999).
 This tool allows to check if a given package/ebuild has new upstream versions
