@@ -7,18 +7,19 @@ dev-portage/euscan-ng
 euscan-ng is a fork of Bernard Cafarelli's euscan: https://github.com/voyageur/euscan
 which is a fork of Corentin Chary's euscan: https://github.com/iksaif/euscan
 
-euscan is available in portage as a dev package (app-portage/euscan-9999).
-This tool allows to check if a given package/ebuild has new upstream versions
-or not. It will use different heuristic to scan upstream and grab new versions
-and related urls.
+Right now euscan-ng and (legacy) euscan cannot be installed (system-wide) on the same system.
+euscan-ng is available in src_prepare overlay as a dev package (app-portage/euscan-ng-9999).
+
+This tool allows to check if a given package has new upstream versions or not.
+It will use different heuristic to scan upstream and grab new versions and related urls.
 
 This tool was designed to mimic debian's uscan, but there is a major
 difference between the two: uscan uses a specific "watch" file that describes
-how it should scan packages, while euscan uses only what can already be found
+how it should scan packages, while euscan-ng uses only what can already be found
 in ebuilds. Of course, we could later add some informations in metadata.xml
-to help euscan do its job more efficiently.
+to help euscan-ng do its job more efficiently.
 
-euscan heuristics are described in the "How does-it works ?" section.
+euscan-ng heuristics are described in the "How does-it works?" section.
 
 Examples
 --------
