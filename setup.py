@@ -63,14 +63,29 @@ class set_version(Command):
         python_re = r'(?<=^__version__ = )' + quote + '[^\'"]*' + quote
         sub(python_scripts, python_re)
 
+
 packages = [
     str('.'.join(root.split(os.sep)[1:]))
     for root, dirs, files in os.walk('pym/euscan')
     if '__init__.py' in files
 ]
 
+web_require = [
+    'Django>=1.4',
+    'South>=0.7',
+    'ansi2html>=0.9.1',
+    'django-annoying>=0.7.6',
+    'django-auth-ldap>=1.1',
+    'django-celery>=3.0.1',
+    'django-piston>=0.2.3',
+    'django-recaptcha>=0.0.4',
+    'django-registration>=0.8',
+    'matplotlib>=1.1.0',
+    'python-ldap>=2.4.10',
+]
+
 tests_require = [
-  'factory-boy>=1.1.3',
+    'factory-boy>=1.1.3',
 ]
 
 setup(
@@ -78,11 +93,9 @@ setup(
     version=__version__,
     description='Ebuild upstream scan utility.',
     long_description=open(join(dirname(__file__), 'README.rst')).read(),
-    author='Corentin Chary',
-    author_email='corentin.chary@gmail.com',
-    maintainer='Corentin Chary',
-    maintainer_email='corentin.chary@gmail.com',
-    url='http://euscan.iksaif.net',
+    author='src_prepare',
+    maintainer='src_prepare',
+    url='https://gitlab.com/src_prepare/euscan-ng',
     download_url=(
         'https://github.com/iksaif/euscan/tarball/' +
         ('master' if __version__ == '9999' else ('euscan-%s' % __version__))
@@ -90,18 +103,6 @@ setup(
     install_requires=[
         # Command line utility
         'beautifulsoup4>=4.8.2',
-        # Web interface
-        'Django>=1.4',
-        'South>=0.7',
-        'ansi2html>=0.9.1',
-        'django-annoying>=0.7.6',
-        'django-auth-ldap>=1.1',
-        'django-celery>=3.0.1',
-        'django-piston>=0.2.3',
-        'django-recaptcha>=0.0.4',
-        'django-registration>=0.8',
-        'matplotlib>=1.1.0',
-        'python-ldap>=2.4.10',
     ],
     package_dir={'': 'pym'},
     packages=packages,
@@ -116,6 +117,9 @@ setup(
         'set_version': set_version,
     },
     tests_require=tests_require,
-    extras_require={'test': tests_require},
+    extras_require={
+        'test': tests_require,
+        'web': web_require
+    },
     test_suite='euscanwww.runtests.runtests',
 )
