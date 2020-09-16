@@ -3,12 +3,18 @@ BIN = euscan
 
 
 .PHONY:
+	all
 	clean
 	install-user
 	install-user-test
 	install-user-web
 	install
 	uninstall distclean
+
+
+all:
+	@echo "Did nothing."
+	@echo "To do user installation use target: install-user"
 
 
 clean:
