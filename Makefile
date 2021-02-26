@@ -17,25 +17,22 @@ all:
 	@echo "To do user installation use target: install-user"
 
 
-clean:
-	sh clean.sh
-
-
 install-user:
 	python setup.py -v install --user
 
 install-user-test:
-	python setup.py -v install --user test
+	pip install --user .'[test]'
 
 install-user-web:
-	python setup.py -v install --user web
+	pip install --user .'[web]'
 
 install: install-user
 
 
+clean:
+	sh clean.sh
+
 uninstall:
 	pip uninstall -v -y $(BIN)
 
-
-distclean: uninstall
-distclean: clean
+distclean:	clean	uninstall

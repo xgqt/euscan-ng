@@ -1,18 +1,24 @@
 #!/usr/bin/env python
 
 
-import re
-import sys
-from distutils import log
+"""
+Python setup script
+"""
+
+
 try:
     from setuptools import setup, Command
 except ImportError:
     from distutils.core import setup, Command
 from glob import glob
 
-import os
-from os.path import join, dirname
 import io
+import os
+import re
+import sys
+
+from os.path import join, dirname
+from distutils import log
 
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'pym'))
@@ -33,7 +39,7 @@ python_scripts = [os.path.join(cwd, path) for path in (
 )]
 
 
-class set_version(Command):
+class SetVersion(Command):
     """Set python __version__ to our __version__."""
     description = "hardcode scripts' version using VERSION from environment"
     user_options = []  # [(long_name, short_name, desc),]
@@ -114,7 +120,7 @@ setup(
     #     glob('man/*')),
     # ),
     cmdclass={
-        'set_version': set_version,
+        'set_version': SetVersion,
     },
     tests_require=tests_require,
     extras_require={
