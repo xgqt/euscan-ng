@@ -1,11 +1,13 @@
 import re
-import urllib.request, urllib.parse, urllib.error
+import urllib.error
+import urllib.parse
+import urllib.request
 
 import portage
 
-from euscan.helpers import regex_from_template
-from euscan.handlers.url import process_scan as url_scan
 from euscan import output
+from euscan.handlers.url import process_scan as url_scan
+from euscan.helpers import regex_from_template
 
 HANDLER_NAME = "berlios"
 CONFIDENCE = 90

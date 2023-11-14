@@ -2,18 +2,16 @@ import os
 import sys
 from datetime import datetime
 
-import portage
-
 import gentoolkit.pprinter as pp
-from gentoolkit.query import Query
+import portage
 from gentoolkit.package import Package
+from gentoolkit.query import Query
 
-from euscan import CONFIG, BLACKLIST_PACKAGES
-from euscan import handlers, output
-from euscan.out import from_mirror
-from euscan.helpers import version_blacklisted
-from euscan.version import is_version_stable
+from euscan import BLACKLIST_PACKAGES, CONFIG, handlers, output
 from euscan.ebuild import package_from_ebuild
+from euscan.helpers import version_blacklisted
+from euscan.out import from_mirror
+from euscan.version import is_version_stable
 
 
 def filter_versions(cp, versions):

@@ -1,9 +1,12 @@
 import re
-import portage
-import urllib.request, urllib.error, urllib.parse
+import urllib.error
+import urllib.parse
+import urllib.request
 import xml.dom.minidom
 
-from euscan import helpers, output, mangling
+import portage
+
+from euscan import helpers, mangling, output
 
 HANDLER_NAME = "php"
 CONFIDENCE = 100

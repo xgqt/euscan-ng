@@ -1,10 +1,12 @@
 import json
-import urllib.request, urllib.error, urllib.parse
 import re
+import urllib.error
+import urllib.parse
+import urllib.request
 
 import portage
 
-from euscan import helpers, output, mangling
+from euscan import helpers, mangling, output
 
 HANDLER_NAME = "github"
 CONFIDENCE = 100

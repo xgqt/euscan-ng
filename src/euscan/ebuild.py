@@ -1,13 +1,10 @@
+import importlib
 import os
 import sys
-import importlib
 
 import portage
+from portage import _encodings, _shell_quote, _unicode_decode, _unicode_encode
 from portage.const import VDB_PATH
-from portage import _encodings
-from portage import _shell_quote
-from portage import _unicode_decode
-from portage import _unicode_encode
 
 
 # Stolen from the ebuild command

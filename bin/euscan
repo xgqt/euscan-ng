@@ -17,22 +17,20 @@ __description__ = "A tool to detect new upstream releases."
 
 # Imports
 
-import sys
 import getopt
+import sys
 from errno import EINTR, EINVAL
 from http.client import HTTPConnection
 
-from portage import settings
-from portage.output import white, yellow, turquoise, green
-from portage.exception import AmbiguousPackageName
-
 from gentoolkit import pprinter as pp
 from gentoolkit.errors import GentoolkitException
+from portage import settings
+from portage.exception import AmbiguousPackageName
+from portage.output import green, turquoise, white, yellow
 
 from euscan import CONFIG, output
 from euscan.out import progress_bar
 from euscan._version import __version__
-
 
 # Globals
 isatty = os.environ.get("TERM") != "dumb" and sys.stdout.isatty()

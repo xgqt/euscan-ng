@@ -1,9 +1,11 @@
-import urllib.request, urllib.parse, urllib.error
 import re
+import urllib.error
+import urllib.parse
+import urllib.request
 
 import portage
 
-from euscan import mangling, helpers, output
+from euscan import helpers, mangling, output
 
 HANDLER_NAME = "freecode"
 CONFIDENCE = 100

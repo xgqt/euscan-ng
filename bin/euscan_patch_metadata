@@ -1,20 +1,19 @@
 #!/usr/bin/env python
 
-import os
-import sys
-import re
-import urllib
-from tempfile import mkstemp
-import tarfile
 import gzip
 import logging
+import os
+import re
 import shutil
+import sys
+import tarfile
+import urllib
 from difflib import unified_diff
+from tempfile import mkstemp
 
-from portage.exception import AmbiguousPackageName
-from gentoolkit.query import Query
 from BeautifulSoup import BeautifulSoup, SoupStrainer
-
+from gentoolkit.query import Query
+from portage.exception import AmbiguousPackageName
 
 logger = logging.getLogger(__name__)
 

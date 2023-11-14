@@ -1,21 +1,22 @@
+import errno
 import os
 import re
-import errno
-import urllib.request, urllib.error, urllib.parse
+import urllib.error
+import urllib.parse
+import urllib.request
 from xml.dom.minidom import Document
 
 import portage
 from portage import dep
 
 try:
-    from urllib import robotparser
-    from urllib import urlparse
+    from urllib import robotparser, urlparse
 except ImportError:
     import urllib.robotparser
     import urllib.parse
 
 import euscan
-from euscan import CONFIG, BLACKLIST_VERSIONS, ROBOTS_TXT_BLACKLIST_DOMAINS
+from euscan import BLACKLIST_VERSIONS, CONFIG, ROBOTS_TXT_BLACKLIST_DOMAINS
 from euscan.version import parse_version
 
 
@@ -267,7 +268,7 @@ def urlallowed(url):
     if baseurl in rpcache:
         rp = rpcache[baseurl]
     else:
-        from socket import setdefaulttimeout, getdefaulttimeout
+        from socket import getdefaulttimeout, setdefaulttimeout
 
         timeout = getdefaulttimeout()
         setdefaulttimeout(5)

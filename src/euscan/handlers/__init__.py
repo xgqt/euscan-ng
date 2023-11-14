@@ -1,10 +1,10 @@
 import os
-import sys
 import pkgutil
-
-from euscan import CONFIG, output
+import sys
 
 from portage.xml.metadata import MetaDataXML
+
+from euscan import CONFIG, output
 
 handlers = {"package": [], "url": [], "all": {}}
 

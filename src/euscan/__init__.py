@@ -7,7 +7,6 @@ import configparser
 import os
 from ast import literal_eval
 
-
 CONFIG = {
     "nocolor": False,
     "quiet": False,

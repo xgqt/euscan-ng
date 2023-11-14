@@ -2,9 +2,9 @@ import re
 
 import portage
 
-from euscan.helpers import regex_from_template
-from euscan.handlers.url import process_scan as url_scan
 from euscan import output
+from euscan.handlers.url import process_scan as url_scan
+from euscan.helpers import regex_from_template
 
 HANDLER_NAME = "sourceforge"
 CONFIDENCE = 90

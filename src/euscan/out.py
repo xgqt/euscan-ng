@@ -1,14 +1,14 @@
-import sys
-from io import StringIO
-from collections import defaultdict
 import json
-import signal
-import time
 import re
+import signal
+import sys
+import time
+from collections import defaultdict
+from io import StringIO
 
 import portage
-from portage.output import EOutput, TermProgressBar
 from gentoolkit import pprinter as pp
+from portage.output import EOutput, TermProgressBar
 
 from euscan.helpers import dict_to_xml
 

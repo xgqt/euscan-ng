@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import re
-import urllib.request, urllib.error, urllib.parse
+import urllib.error
+import urllib.parse
+import urllib.request
 
 try:
     import simplejson as json
@@ -10,7 +12,7 @@ except ImportError:
 
 import portage
 
-from euscan import mangling, helpers, output
+from euscan import helpers, mangling, output
 
 HANDLER_NAME = "gnome"
 CONFIDENCE = 100

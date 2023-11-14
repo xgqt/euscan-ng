@@ -1,8 +1,10 @@
-from urllib.parse import urljoin, urlparse
-import urllib.request, urllib.error, urllib.parse
-import re
-import io
 import difflib
+import io
+import re
+import urllib.error
+import urllib.parse
+import urllib.request
+from urllib.parse import urljoin, urlparse
 
 try:
     from BeautifulSoup import BeautifulSoup
@@ -12,13 +14,13 @@ except ImportError:
 import portage
 
 from euscan import (
-    output,
-    helpers,
-    mangling,
-    CONFIG,
-    SCANDIR_BLACKLIST_URLS,
     BRUTEFORCE_BLACKLIST_PACKAGES,
     BRUTEFORCE_BLACKLIST_URLS,
+    CONFIG,
+    SCANDIR_BLACKLIST_URLS,
+    helpers,
+    mangling,
+    output,
 )
 
 HANDLER_NAME = "generic"

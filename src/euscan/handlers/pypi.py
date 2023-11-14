@@ -1,9 +1,9 @@
-import xmlrpc.client
 import re
+import xmlrpc.client
 
 import portage
 
-from euscan import mangling, helpers, output
+from euscan import helpers, mangling, output
 
 HANDLER_NAME = "pypi"
 CONFIDENCE = 100

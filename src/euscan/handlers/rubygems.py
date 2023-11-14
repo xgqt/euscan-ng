@@ -1,9 +1,12 @@
-import re
-import portage
 import json
-import urllib.request, urllib.error, urllib.parse
+import re
+import urllib.error
+import urllib.parse
+import urllib.request
 
-from euscan import helpers, output, mangling
+import portage
+
+from euscan import helpers, mangling, output
 
 HANDLER_NAME = "rubygems"
 CONFIDENCE = 100

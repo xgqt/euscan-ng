@@ -1,11 +1,13 @@
-import urllib.request, urllib.parse, urllib.error
-import re
 import bz2
+import re
+import urllib.error
+import urllib.parse
+import urllib.request
 import zlib
 
 import portage
 
-from euscan import mangling, helpers, output
+from euscan import helpers, mangling, output
 
 HANDLER_NAME = "deb"
 CONFIDENCE = 100

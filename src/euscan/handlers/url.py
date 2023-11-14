@@ -1,8 +1,10 @@
 import re
-import urllib.request, urllib.error, urllib.parse
+import urllib.error
+import urllib.parse
+import urllib.request
 
+from euscan import helpers, output
 from euscan.handlers import generic
-from euscan import output, helpers
 
 PRIORITY = 100
 
