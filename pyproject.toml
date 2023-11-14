@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "euscan-ng"
+authors = [
+    {name = "Corentin Chary", email = "corentin.chary@gmail.com"}
+]
+maintainers = [
+    {name = "src_prepare group"}
+]
+description = "Ebuild upstream scan utility."
+readme = "README.rst"
+license = {text = "GPL-2.0"}
+dependencies = [
+    "portage",
+    "beautifulsoup4>=4.8.2"
+]
+dynamic = ["version"]
+
+[project.urls]
+homepage = "https://gitlab.com/src_prepare/euscan-ng"
+
+[tool.setuptools]
+script-files = ["bin/euscan"]

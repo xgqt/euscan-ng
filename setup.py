@@ -1,27 +1,10 @@
 #!/usr/bin/env python
-
-
-"""
-Python setup script
-"""
-
-
-try:
-    from setuptools import setup, Command
-except ImportError:
-    from distutils.core import setup, Command
-from glob import glob
+from setuptools import setup, Command
 
 import io
 import os
 import re
-import sys
 
-from os.path import join, dirname
-from distutils import log
-
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 __version__ = os.getenv('VERSION', default='9999')
 
@@ -69,38 +52,8 @@ class SetVersion(Command):
         python_re = r'(?<=^__version__ = )' + quote + '[^\'"]*' + quote
         sub(python_scripts, python_re)
 
-
-packages = [
-    str('.'.join(root.split(os.sep)[1:]))
-    for root, dirs, files in os.walk('src/euscan')
-    if '__init__.py' in files
-]
-
 setup(
-    name='euscan',
     version=__version__,
-    description='Ebuild upstream scan utility.',
-    long_description=open(join(dirname(__file__), 'README.rst')).read(),
-    author='src_prepare',
-    maintainer='src_prepare',
-    url='https://gitlab.com/src_prepare/euscan-ng',
-    download_url=(
-        'https://github.com/iksaif/euscan/tarball/' +
-        ('master' if __version__ == '9999' else ('euscan-%s' % __version__))
-    ),
-    install_requires=[
-        # Command line utility
-        'beautifulsoup4>=4.8.2',
-    ],
-    package_dir={'': 'src'},
-    packages=packages,
-    package_data={},
-    scripts=python_scripts,
-    # enable user install
-    # data_files=(
-    #     (os.path.join(os.sep, EPREFIX.lstrip(os.sep), 'usr/share/man/man1'),
-    #     glob('man/*')),
-    # ),
     cmdclass={
         'set_version': SetVersion,
     },
