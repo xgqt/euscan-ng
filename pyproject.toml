@@ -27,3 +27,14 @@ script-files = ["bin/euscan"]
 
 [tool.setuptools_scm]
 version_file = "src/euscan/_version.py"
+
+[tool.black]
+include = "(bin|euscan)"
+extend_exclude = "(man|po|.*.egg-info)"
+
+[tool.isort]
+profile = "black"
+src_paths = ["bin/euscan", "src/euscan/"]
+
+[tool.ruff]
+extend-include = ["bin/euscan", "bin/euscan_patch_metadata"]
