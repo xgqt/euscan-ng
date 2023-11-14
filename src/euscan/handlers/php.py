@@ -4,8 +4,6 @@ import urllib.parse
 import urllib.request
 import xml.dom.minidom
 
-import portage
-
 from euscan import helpers, mangling, output
 
 HANDLER_NAME = "php"
@@ -35,7 +33,7 @@ def scan_url(pkg, url, options):
 
 
 def scan_pkg(pkg, options):
-    cp, ver, rev = pkg.cp, pkg.version, pkg.revision
+    cp, ver = pkg.cp, pkg.version
 
     package = options["data"]
     channel = options["type"]

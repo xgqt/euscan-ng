@@ -1,19 +1,15 @@
 import errno
 import os
 import re
+import urllib
 import urllib.error
 import urllib.parse
 import urllib.request
+import urllib.robotparser
 from xml.dom.minidom import Document
 
 import portage
 from portage import dep
-
-try:
-    from urllib import robotparser, urlparse
-except ImportError:
-    import urllib.robotparser
-    import urllib.parse
 
 import euscan
 from euscan import BLACKLIST_VERSIONS, CONFIG, ROBOTS_TXT_BLACKLIST_DOMAINS
@@ -188,7 +184,9 @@ def join_version(components):
         version += str(components[i])
         if i >= len(components) - 1:
             break
-        if type(components[i]) != str and type(components[i + 1]) != str:
+        if not isinstance(components[i], str) and not isinstance(
+            components[i + 1], str
+        ):
             version += "."
     return version
 
@@ -200,10 +198,10 @@ def increment_version(components, level):
         raise Exception
 
     for i in range(n, level + 1, -1):
-        if type(components[i - 1]) == int:
+        if isinstance(components[i - 1], int):
             components[i - 1] = 0
 
-    if type(components[level]) == int:
+    if isinstance(components[level], int):
         components[level] += 1
 
     return components
@@ -278,7 +276,7 @@ def urlallowed(url):
         try:
             rp.read()
             rpcache[baseurl] = rp
-        except:
+        except IOError:
             rp = None
 
         setdefaulttimeout(timeout)

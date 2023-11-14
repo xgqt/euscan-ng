@@ -27,8 +27,10 @@ def guess_package(cp, url):
     if match:
         pkg = match.group(1)
         try:
+            # Output is None if input is invalid, therefore TypeError when
+            # this None is attempted to be unpacked into three variables.
             cp, ver, rev = portage.pkgsplit("fake/" + pkg)
-        except:
+        except TypeError:
             pass
 
     cat, pkg = cp.split("/")
@@ -92,7 +94,7 @@ def cpan_mangle_version(pv):
 def cpan_vercmp(cp, a, b):
     try:
         return float(a) - float(b)
-    except:
+    except OverflowError:
         return helpers.simple_vercmp(a, b)
 
 
@@ -113,7 +115,7 @@ def scan_pkg(pkg, options):
         options["versionmangle"] = ["cpan", "gentoo"]
 
     url = "http://search.cpan.org/api/dist/%s" % remote_pkg
-    cp, ver, rev = pkg.cp, pkg.version, pkg.revision
+    cp, ver = pkg.cp, pkg.version
     m_ver = cpan_mangle_version(ver)
 
     output.einfo("Using CPAN API: " + url)

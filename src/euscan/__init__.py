@@ -84,6 +84,6 @@ ROBOTS_TXT_BLACKLIST_DOMAINS = [
     "(.*)festvox\.org(.*)",
 ]
 
-from euscan.out import EuscanOutput
+from euscan.out import EuscanOutput  # noqa: E402
 
 output = EuscanOutput(CONFIG)

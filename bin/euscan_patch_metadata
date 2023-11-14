@@ -127,7 +127,7 @@ def get_deb_url(name):
 
         if not deb_url:
             logger.error("  Cannot get package from %s" % url)
-            name = raw_input("  Package name in Debian: ")
+            name = input("  Package name in Debian: ")
 
     return deb_url, deb_type
 
