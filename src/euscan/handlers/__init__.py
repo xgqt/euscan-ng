@@ -4,7 +4,7 @@ import pkgutil
 
 from euscan import CONFIG, output
 
-from gentoolkit.metadata import MetaData
+from portage.xml.metadata import MetaDataXML
 
 handlers = {'package': [], 'url': [], 'all': {}}
 
@@ -64,7 +64,7 @@ def get_metadata(pkg):
 
     try:
         if os.path.exists(meta_override):
-            pkg_metadata = MetaData(meta_override)
+            pkg_metadata = MetaDataXML(meta_override)
             output.einfo('Using custom metadata: %s' % meta_override)
         if not pkg_metadata:
             pkg_metadata = pkg.metadata
