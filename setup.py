@@ -21,7 +21,7 @@ from os.path import join, dirname
 from distutils import log
 
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'pym'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 __version__ = os.getenv('VERSION', default='9999')
 
@@ -72,7 +72,7 @@ class SetVersion(Command):
 
 packages = [
     str('.'.join(root.split(os.sep)[1:]))
-    for root, dirs, files in os.walk('pym/euscan')
+    for root, dirs, files in os.walk('src/euscan')
     if '__init__.py' in files
 ]
 
@@ -92,7 +92,7 @@ setup(
         # Command line utility
         'beautifulsoup4>=4.8.2',
     ],
-    package_dir={'': 'pym'},
+    package_dir={'': 'src'},
     packages=packages,
     package_data={},
     scripts=python_scripts,
