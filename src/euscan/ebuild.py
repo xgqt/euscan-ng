@@ -1,6 +1,6 @@
 import os
 import sys
-import imp
+import importlib
 
 import portage
 from portage.const import VDB_PATH
@@ -56,7 +56,7 @@ def package_from_ebuild(ebuild):
                 encoding=_encodings['content'], errors='strict')
 
         portage.close_portdbapi_caches()
-        imp.reload(portage)
+        importlib.reload(portage)
     del portage.portdb.porttrees[1:]
     if ebuild_portdir != portage.portdb.porttree_root:
         portage.portdb.porttrees.append(ebuild_portdir)
