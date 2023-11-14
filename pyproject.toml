@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=60","setuptools-scm>=8.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -24,3 +24,6 @@ homepage = "https://gitlab.com/src_prepare/euscan-ng"
 
 [tool.setuptools]
 script-files = ["bin/euscan"]
+
+[tool.setuptools_scm]
+version_file = "src/euscan/_version.py"

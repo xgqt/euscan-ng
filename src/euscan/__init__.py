@@ -3,8 +3,6 @@
 # Copyright 2011 Corentin Chary <corentin.chary@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-__version__ = "git"
-
 import configparser
 import os
 from ast import literal_eval
