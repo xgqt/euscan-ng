@@ -51,10 +51,12 @@ def progress_bar():
 
     def display():
         progress_bar.set(progress_handler.curval, progress_handler.maxval)
+
     progress_handler.display = display
 
     def sigwinch_handler(signum, frame):
         lines, progress_bar.term_columns = portage.output.get_term_size()
+
     signal.signal(signal.SIGWINCH, sigwinch_handler)
 
     yield on_progress
@@ -75,29 +77,29 @@ def clean_colors(string):
 
 
 def transform_url(config, cpv, url):
-    if config['mirror']:
+    if config["mirror"]:
         url = to_mirror(url)
-    if config['ebuild-uri']:
+    if config["ebuild-uri"]:
         url = to_ebuild_uri(cpv, url)
     return url
 
 
 def to_ebuild_uri(cpv, url):
     cat, pkg, ver, rev = portage.catpkgsplit(cpv)
-    p = '%s-%s' % (pkg, ver)
-    pvr = '%s%s' % (ver, '-%s' % rev if rev != 'r0' else '')
-    pf = '%s-%s' % (pkg, pvr)
+    p = "%s-%s" % (pkg, ver)
+    pvr = "%s%s" % (ver, "-%s" % rev if rev != "r0" else "")
+    pf = "%s-%s" % (pkg, pvr)
     evars = (
-        (p, 'P'),
-        (pkg, 'PN'),
-        (ver, 'PV'),
-        (rev, 'PR'),
-        (pvr, 'PVR'),
-        (pf, 'PF'),
-        (cat, 'CATEGORY')
+        (p, "P"),
+        (pkg, "PN"),
+        (ver, "PV"),
+        (rev, "PR"),
+        (pvr, "PVR"),
+        (pf, "PF"),
+        (cat, "CATEGORY"),
     )
     for src, dst in evars:
-        url = url.replace(src, '${%s}' % dst)
+        url = url.replace(src, "${%s}" % dst)
     return url
 
 
@@ -112,14 +114,14 @@ def load_mirrors():
 
 
 def from_mirror(url):
-    if not url.startswith('mirror://'):
+    if not url.startswith("mirror://"):
         return url
 
     if not mirrors_:
         load_mirrors()
 
     for mirror_name in mirrors_:
-        prefix = 'mirror://' + mirror_name
+        prefix = "mirror://" + mirror_name
         if url.startswith(prefix):
             return url.replace(prefix, mirrors_[mirror_name][0])
 
@@ -137,7 +139,7 @@ def to_mirror(url):
                 return "mirror://%s%s%s" % (
                     mirror_name,
                     "" if url_part.startswith("/") else "/",
-                    url_part
+                    url_part,
                 )
     return url
 
@@ -146,6 +148,7 @@ class EOutputMem(EOutput):
     """
     Override of EOutput, allows to specify an output file for writes
     """
+
     def __init__(self, *args, **kwargs):
         super(EOutputMem, self).__init__(*args, **kwargs)
         self.out = StringIO()
@@ -161,6 +164,7 @@ class EuscanOutput(object):
     """
     Class that handles output for euscan
     """
+
     def __init__(self, config):
         self.config = config
         self.queries = defaultdict(dict)
@@ -212,12 +216,10 @@ class EuscanOutput(object):
     def result(self, cp, version, urls, handler, confidence):
         from euscan.version import get_version_type
 
-        cpv = '%s-%s' % (cp, version)
-        urls = ' '.join(
-            transform_url(self.config, cpv, url) for url in urls.split()
-        )
+        cpv = "%s-%s" % (cp, version)
+        urls = " ".join(transform_url(self.config, cpv, url) for url in urls.split())
 
-        if self.config['format'] in ['json', 'dict']:
+        if self.config["format"] in ["json", "dict"]:
             _curr = self.queries[self.current_query]
             _curr["result"].append(
                 {
@@ -225,12 +227,12 @@ class EuscanOutput(object):
                     "urls": urls.split(),
                     "handler": handler,
                     "confidence": confidence,
-                    "type": get_version_type(version)
+                    "type": get_version_type(version),
                 }
             )
         else:
-            if not self.config['quiet']:
-                print("Upstream Version:", pp.number("%s" % version), end=' ')
+            if not self.config["quiet"]:
+                print("Upstream Version:", pp.number("%s" % version), end=" ")
                 print(pp.path(" %s" % urls))
             else:
                 print(pp.cpv("%s-%s" % (cp, version)) + ":", pp.path(urls))

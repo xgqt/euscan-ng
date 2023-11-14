@@ -11,13 +11,13 @@ PRIORITY = 90
 
 
 def can_handle(pkg, url=None):
-    return url and url.startswith('mirror://rubygems/')
+    return url and url.startswith("mirror://rubygems/")
 
 
 def guess_gem(cpv, url):
-    match = re.search('mirror://rubygems/(.*).gem', url)
+    match = re.search("mirror://rubygems/(.*).gem", url)
     if match:
-        cpv = 'fake/%s' % match.group(1)
+        cpv = "fake/%s" % match.group(1)
 
     ret = portage.pkgsplit(cpv)
     if not ret:
@@ -30,23 +30,22 @@ def guess_gem(cpv, url):
 
 
 def scan_url(pkg, url, options):
-    'http://guides.rubygems.org/rubygems-org-api/#gemversion'
+    "http://guides.rubygems.org/rubygems-org-api/#gemversion"
 
     gem = guess_gem(pkg.cpv, url)
 
     if not gem:
-        output.eerror("Can't guess gem name using %s and %s" % \
-            (pkg.cpv, url))
+        output.eerror("Can't guess gem name using %s and %s" % (pkg.cpv, url))
         return []
 
     output.einfo("Using RubyGem API: %s" % gem)
 
-    return scan_pkg(pkg, {'data': gem})
+    return scan_pkg(pkg, {"data": gem})
 
 
 def scan_pkg(pkg, options):
-    gem = options['data']
-    url = 'http://rubygems.org/api/v1/versions/%s.json' % gem
+    gem = options["data"]
+    url = "http://rubygems.org/api/v1/versions/%s.json" % gem
 
     try:
         fp = helpers.urlopen(url)
@@ -65,11 +64,11 @@ def scan_pkg(pkg, options):
 
     ret = []
     for version in versions:
-        up_pv = version['number']
+        up_pv = version["number"]
         pv = mangling.mangle_version(up_pv, options)
         if helpers.version_filtered(cp, ver, pv):
             continue
-        url = 'http://rubygems.org/gems/%s-%s.gem' % (gem, up_pv)
+        url = "http://rubygems.org/gems/%s-%s.gem" % (gem, up_pv)
         url = mangling.mangle_url(url, options)
         ret.append((url, pv, HANDLER_NAME, CONFIDENCE))
     return ret

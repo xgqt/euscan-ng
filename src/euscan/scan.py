@@ -1,5 +1,3 @@
-
-
 import os
 import sys
 from datetime import datetime
@@ -22,7 +20,6 @@ def filter_versions(cp, versions):
     filtered = {}
 
     for url, version, handler, confidence in versions:
-
         # Try to keep the most specific urls (determinted by the length)
         if version in filtered and len(url) < len(filtered[version]):
             continue
@@ -31,15 +28,16 @@ def filter_versions(cp, versions):
         if version_blacklisted(cp, version):
             continue
 
-        filtered[version] = {
-            "url": url,
-            "handler": handler,
-            "confidence": confidence
-        }
+        filtered[version] = {"url": url, "handler": handler, "confidence": confidence}
 
     return [
-        (cp, filtered[version]["url"], version, filtered[version]["handler"],
-         filtered[version]["confidence"])
+        (
+            cp,
+            filtered[version]["url"],
+            version,
+            filtered[version]["handler"],
+            filtered[version]["confidence"],
+        )
         for version in filtered
     ]
 
@@ -52,7 +50,7 @@ def parse_src_uri(uris):
     while uris:
         uri = uris.pop()
 
-        if '://' not in uri:
+        if "://" not in uri:
             continue
 
         if uris and uris[-1] == "->":
@@ -73,16 +71,16 @@ def reload_gentoolkit():
     import gentoolkit
 
     # Not used in recent versions
-    if not hasattr(gentoolkit.package, 'PORTDB'):
+    if not hasattr(gentoolkit.package, "PORTDB"):
         return
 
     PORTDB = portage.db[portage.root]["porttree"].dbapi
 
-    if hasattr(gentoolkit.dbapi, 'PORTDB'):
+    if hasattr(gentoolkit.dbapi, "PORTDB"):
         gentoolkit.dbapi.PORTDB = PORTDB
-    if hasattr(gentoolkit.package, 'PORTDB'):
+    if hasattr(gentoolkit.package, "PORTDB"):
         gentoolkit.package.PORTDB = PORTDB
-    if hasattr(gentoolkit.query, 'PORTDB'):
+    if hasattr(gentoolkit.query, "PORTDB"):
         gentoolkit.query.PORTDB = PORTDB
 
 
@@ -104,21 +102,18 @@ def scan_upstream(query, on_progress=None):
         )
 
     if not matches:
-        output.ewarn(
-            pp.warn("No package matching '%s'" % pp.pkgquery(query))
-        )
+        output.ewarn(pp.warn("No package matching '%s'" % pp.pkgquery(query)))
         return None
 
     matches = sorted(matches)
     pkg = matches.pop()
 
-    while '9999' in pkg.version and len(matches):
+    while "9999" in pkg.version and len(matches):
         pkg = matches.pop()
 
     if not pkg:
         output.ewarn(
-            pp.warn("Package '%s' only have a dev version (9999)"
-                    % pp.pkgquery(pkg.cp))
+            pp.warn("Package '%s' only have a dev version (9999)" % pp.pkgquery(pkg.cp))
         )
         return None
 
@@ -132,42 +127,34 @@ def scan_upstream(query, on_progress=None):
         on_progress(increment=10)
 
     if pkg.cp in BLACKLIST_PACKAGES:
-        output.ewarn(
-            pp.warn("Package '%s' is blacklisted" % pp.pkgquery(pkg.cp))
-        )
+        output.ewarn(pp.warn("Package '%s' is blacklisted" % pp.pkgquery(pkg.cp)))
         return None
 
-    if not CONFIG['quiet']:
-        if not CONFIG['format']:
-            pp.uprint(
-                " * %s [%s]" % (pp.cpv(pkg.cpv), pp.section(pkg.repo_name()))
-            )
+    if not CONFIG["quiet"]:
+        if not CONFIG["format"]:
+            pp.uprint(" * %s [%s]" % (pp.cpv(pkg.cpv), pp.section(pkg.repo_name())))
             pp.uprint()
         else:
             output.metadata("overlay", pp.section(pkg.repo_name()))
 
         ebuild_path = pkg.ebuild_path()
         if ebuild_path:
-            output.metadata(
-                "ebuild", pp.path(os.path.normpath(ebuild_path))
-            )
+            output.metadata("ebuild", pp.path(os.path.normpath(ebuild_path)))
 
         uris, homepage, description = pkg.environment(
-            ('SRC_URI', 'HOMEPAGE', 'DESCRIPTION')
+            ("SRC_URI", "HOMEPAGE", "DESCRIPTION")
         )
 
         output.metadata("repository", pkg.repo_name())
         output.metadata("homepage", homepage)
         output.metadata("description", description)
     else:
-        uris = pkg.environment('SRC_URI')
+        uris = pkg.environment("SRC_URI")
 
     cpv = pkg.cpv
 
     uris = parse_src_uri(uris)
-    uris_expanded = [
-        from_mirror(uri) if 'mirror://' in uri else uri for uri in uris
-    ]
+    uris_expanded = [from_mirror(uri) if "mirror://" in uri else uri for uri in uris]
 
     pkg._uris = uris
     pkg._uris_expanded = uris_expanded
@@ -187,17 +174,16 @@ def scan_upstream(query, on_progress=None):
 
     is_current_version_stable = is_version_stable(ver)
     if len(result) > 0:
-        if not (CONFIG['format'] or CONFIG['quiet']):
+        if not (CONFIG["format"] or CONFIG["quiet"]):
             print("")
         for cp, url, version, handler, confidence in result:
             if CONFIG["ignore-pre-release"]:
                 if not is_version_stable(version):
                     continue
             if CONFIG["ignore-pre-release-if-stable"]:
-                if is_current_version_stable and \
-                   not is_version_stable(version):
+                if is_current_version_stable and not is_version_stable(version):
                     continue
-            if CONFIG['progress']:
+            if CONFIG["progress"]:
                 print("", file=sys.stderr)
             output.result(cp, version, url, handler, confidence)
 

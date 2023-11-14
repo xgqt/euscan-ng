@@ -11,8 +11,15 @@ except ImportError:
 
 import portage
 
-from euscan import output, helpers, mangling, CONFIG, SCANDIR_BLACKLIST_URLS, \
-    BRUTEFORCE_BLACKLIST_PACKAGES, BRUTEFORCE_BLACKLIST_URLS
+from euscan import (
+    output,
+    helpers,
+    mangling,
+    CONFIG,
+    SCANDIR_BLACKLIST_URLS,
+    BRUTEFORCE_BLACKLIST_PACKAGES,
+    BRUTEFORCE_BLACKLIST_URLS,
+)
 
 HANDLER_NAME = "generic"
 CONFIDENCE = 45
@@ -55,7 +62,7 @@ def scan_html(data, url, pattern):
     soup = BeautifulSoup(data, features="lxml")
     results = []
 
-    for link in soup.findAll('a'):
+    for link in soup.findAll("a"):
         href = link.get("href")
         if not href:
             continue
@@ -66,10 +73,8 @@ def scan_html(data, url, pattern):
         match = re.search(pattern, href, re.I)
         if match:
             results.append(
-                (".".join([x for x in match.groups() if x is not None]),
-                 match.group(0))
+                (".".join([x for x in match.groups() if x is not None]), match.group(0))
             )
-
 
     return results
 
@@ -83,8 +88,7 @@ def scan_ftp(data, url, pattern):
         match = re.search(pattern, line, re.I)
         if match:
             results.append(
-                (".".join([x for x in match.groups() if x is not None]),
-                 match.group(0))
+                (".".join([x for x in match.groups() if x is not None]), match.group(0))
             )
     return results
 
@@ -116,7 +120,7 @@ def scan_directory_recursive(cp, ver, rev, url, steps, orig_url, options):
 
     if re.search(b"<\s*a\s+[^>]*href", data, re.I):
         results.extend(scan_html(data, url, pattern))
-    elif url.startswith('ftp://'):
+    elif url.startswith("ftp://"):
         results.extend(scan_ftp(data, url, pattern))
 
     versions = []
@@ -136,8 +140,7 @@ def scan_directory_recursive(cp, ver, rev, url, steps, orig_url, options):
             versions.append((path, pv, HANDLER_NAME, confidence))
 
         if steps:
-            ret = scan_directory_recursive(cp, ver, rev, path, steps, orig_url,
-                                           options)
+            ret = scan_directory_recursive(cp, ver, rev, path, steps, orig_url, options)
             versions.extend(ret)
 
     return versions
@@ -160,16 +163,14 @@ def scan_url(pkg, url, options):
         if ver not in resolved_url:
             newver = helpers.version_change_end_sep(ver)
             if newver and newver in resolved_url:
-                output.einfo(
-                    "Version: using %s instead of %s" % (newver, ver)
-                )
+                output.einfo("Version: using %s instead of %s" % (newver, ver))
                 ver = newver
 
         template = helpers.template_from_url(resolved_url, ver)
-        if '${' not in template:
+        if "${" not in template:
             output.einfo(
-                "Url doesn't seems to depend on version: %s not found in %s" %
-                (ver, resolved_url)
+                "Url doesn't seems to depend on version: %s not found in %s"
+                % (ver, resolved_url)
             )
             return []
         else:
@@ -220,10 +221,11 @@ def brute_force(pkg, url):
 
     template = helpers.template_from_url(url, ver)
 
-    if '${PV}' not in template:
+    if "${PV}" not in template:
         output.einfo(
-            "Url doesn't seems to depend on full version: %s not found in %s" %
-            (ver, url))
+            "Url doesn't seems to depend on full version: %s not found in %s"
+            % (ver, url)
+        )
         return []
     else:
         output.einfo("Brute forcing: %s" % template)
@@ -250,19 +252,15 @@ def brute_force(pkg, url):
 
         if not infos:
             continue
-        confidence = confidence_score(try_url, url,
-                                      minimum=BRUTEFORCE_CONFIDENCE)
+        confidence = confidence_score(try_url, url, minimum=BRUTEFORCE_CONFIDENCE)
         result.append([try_url, version, BRUTEFORCE_HANDLER_NAME, confidence])
 
-        if len(result) > CONFIG['brute-force-false-watermark']:
-            output.einfo(
-                "Broken server detected ! Skipping brute force."
-            )
+        if len(result) > CONFIG["brute-force-false-watermark"]:
+            output.einfo("Broken server detected ! Skipping brute force.")
             return []
 
         if CONFIG["brute-force-recursive"]:
-            for v in helpers.gen_versions(list(components),
-                                          CONFIG["brute-force"]):
+            for v in helpers.gen_versions(list(components), CONFIG["brute-force"]):
                 if v not in versions and tuple(v) not in done:
                     versions.append(v)
 

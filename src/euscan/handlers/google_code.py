@@ -23,6 +23,7 @@ def can_handle(pkg, url=None):
 
     return re.match(package_name_regex, url)
 
+
 def scan_url(pkg, url, options):
     output.einfo("Using Google Code handler")
 
@@ -31,9 +32,7 @@ def scan_url(pkg, url, options):
     package_name = re.match(package_name_regex, url).group(1)
     base_url = "http://code.google.com/p/%s/downloads/list" % package_name
 
-    file_pattern = regex_from_template(
-        url.split("/")[-1].replace(ver, "${PV}")
-    )
+    file_pattern = regex_from_template(url.split("/")[-1].replace(ver, "${PV}"))
 
     result = url_scan(pkg, base_url, file_pattern)
 

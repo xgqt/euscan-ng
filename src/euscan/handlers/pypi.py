@@ -11,11 +11,11 @@ PRIORITY = 90
 
 
 def can_handle(pkg, url=None):
-    return url and url.startswith('mirror://pypi/')
+    return url and url.startswith("mirror://pypi/")
 
 
 def guess_package(cp, url):
-    match = re.search('mirror://pypi/\w+/(.*)/.*', url)
+    match = re.search("mirror://pypi/\w+/(.*)/.*", url)
     if match:
         return match.group(1)
 
@@ -25,18 +25,18 @@ def guess_package(cp, url):
 
 
 def scan_url(pkg, url, options):
-    'http://wiki.python.org/moin/PyPiXmlRpc'
+    "http://wiki.python.org/moin/PyPiXmlRpc"
 
     package = guess_package(pkg.cpv, url)
-    return scan_pkg(pkg, {'data': package})
+    return scan_pkg(pkg, {"data": package})
 
 
 def scan_pkg(pkg, options):
-    package = options['data']
+    package = options["data"]
 
     output.einfo("Using PyPi XMLRPC: " + package)
 
-    client = xmlrpc.client.ServerProxy('https://pypi.python.org/pypi')
+    client = xmlrpc.client.ServerProxy("https://pypi.python.org/pypi")
     versions = client.package_releases(package)
 
     if not versions:
@@ -52,7 +52,6 @@ def scan_pkg(pkg, options):
         if helpers.version_filtered(cp, ver, pv):
             continue
         urls = client.release_urls(package, up_pv)
-        urls = " ".join([mangling.mangle_url(infos['url'], options)
-                         for infos in urls])
+        urls = " ".join([mangling.mangle_url(infos["url"], options) for infos in urls])
         ret.append((urls, pv, HANDLER_NAME, CONFIDENCE))
     return ret

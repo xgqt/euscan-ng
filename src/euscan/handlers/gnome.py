@@ -16,15 +16,15 @@ HANDLER_NAME = "gnome"
 CONFIDENCE = 100
 PRIORITY = 90
 
-GNOME_URL_SOURCE = 'http://ftp.gnome.org/pub/GNOME/sources'
+GNOME_URL_SOURCE = "http://ftp.gnome.org/pub/GNOME/sources"
 
 
 def can_handle(_pkg, url=None):
-    return url and url.startswith('mirror://gnome/')
+    return url and url.startswith("mirror://gnome/")
 
 
 def guess_package(cp, url):
-    match = re.search('mirror://gnome/sources/([^/]+)/.*', url)
+    match = re.search("mirror://gnome/sources/([^/]+)/.*", url)
     if match:
         return match.group(1)
 
@@ -34,27 +34,27 @@ def guess_package(cp, url):
 
 
 def scan_url(pkg, url, options):
-    'http://ftp.gnome.org/pub/GNOME/sources/'
+    "http://ftp.gnome.org/pub/GNOME/sources/"
     package = {
-        'data': guess_package(pkg.cpv, url),
-        'type': 'gnome',
+        "data": guess_package(pkg.cpv, url),
+        "type": "gnome",
     }
     return scan_pkg(pkg, package)
 
 
 def scan_pkg(pkg, options):
-    package = options['data']
+    package = options["data"]
 
     output.einfo("Using Gnome json cache: " + package)
 
-    fp = urllib.request.urlopen('/'.join([GNOME_URL_SOURCE, package, 'cache.json']))
+    fp = urllib.request.urlopen("/".join([GNOME_URL_SOURCE, package, "cache.json"]))
     content = fp.read()
     fp.close()
 
-    cache = json.loads(content, encoding='ascii')
+    cache = json.loads(content, encoding="ascii")
 
     if cache[0] != 4:
-        output.eerror('Unknow cache format detected')
+        output.eerror("Unknow cache format detected")
         return []
 
     versions = cache[2][package]
@@ -72,13 +72,12 @@ def scan_pkg(pkg, options):
         if helpers.version_filtered(cp, ver, pv):
             continue
         up_files = cache[1][package][up_pv]
-        for tarball_comp in ('tar.xz', 'tar.bz2', 'tar.gz'):
+        for tarball_comp in ("tar.xz", "tar.bz2", "tar.gz"):
             if tarball_comp in up_files:
-                url = '/'.join([GNOME_URL_SOURCE, package,
-                                 up_files[tarball_comp]])
+                url = "/".join([GNOME_URL_SOURCE, package, up_files[tarball_comp]])
                 break
         else:
-            output.ewarn('No tarball for release %s' % up_pv)
+            output.ewarn("No tarball for release %s" % up_pv)
         ret.append((url, pv, HANDLER_NAME, CONFIDENCE))
 
     return ret

@@ -33,7 +33,7 @@ def handle_directory_patterns(base, file_pattern):
         i += 1
     basedir = "/".join(basedir)
     directory_pattern = splitted[i]
-    final = "/".join(splitted[i + 1:])
+    final = "/".join(splitted[i + 1 :])
 
     try:
         fp = helpers.urlopen(basedir)
@@ -52,15 +52,14 @@ def handle_directory_patterns(base, file_pattern):
     else:
         scan_data = generic.scan_html(data, basedir, directory_pattern)
 
-    return [("/".join((basedir, path, final)), file_pattern)
-            for _, path in scan_data]
+    return [("/".join((basedir, path, final)), file_pattern) for _, path in scan_data]
 
 
 def read_options(options):
     try:
-        base, file_pattern = options['data'].split(" ")[:2]
+        base, file_pattern = options["data"].split(" ")[:2]
     except ValueError:
-        base, file_pattern = options['data'], None
+        base, file_pattern = options["data"], None
 
     # the file pattern can be in the base url
     pattern_regex = r"/([^/]*\([^/]*\)[^/]*)$"
@@ -70,9 +69,7 @@ def read_options(options):
         base = base.replace(file_pattern, "")
 
     # handle sf.net specially
-    base = base.replace(
-        "http://sf.net/", "http://qa.debian.org/watch/sf.php/"
-    )
+    base = base.replace("http://sf.net/", "http://qa.debian.org/watch/sf.php/")
 
     return base, file_pattern
 

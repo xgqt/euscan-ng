@@ -35,8 +35,8 @@ from euscan._version import __version__
 
 
 # Globals
-isatty = os.environ.get('TERM') != 'dumb' and sys.stdout.isatty()
-isatty_stderr = os.environ.get('TERM') != 'dumb' and sys.stderr.isatty()
+isatty = os.environ.get("TERM") != "dumb" and sys.stdout.isatty()
+isatty_stderr = os.environ.get("TERM") != "dumb" and sys.stderr.isatty()
 
 
 def exit_helper(status):
@@ -62,8 +62,7 @@ def setup_signals():
 
 def print_version():
     """Output the version info."""
-    print("%s (%s) - %s" \
-            % (__productname__, __version__, __description__))
+    print("%s (%s) - %s" % (__productname__, __version__, __description__))
     print()
     print("Author: %s <%s>" % (__author__, __email__))
     print("Copyright 2011 Gentoo Foundation")
@@ -78,78 +77,134 @@ def print_usage(_error=None, help=None):
     if _error:
         out = sys.stderr
 
-    if not _error in ('global-options', 'packages',):
+    if not _error in (
+        "global-options",
+        "packages",
+    ):
         _error = None
 
     if not _error and not help:
-        help = 'all'
+        help = "all"
 
-    if _error in ('global-options',):
+    if _error in ("global-options",):
         output.eerror("Wrong option on command line.\n")
 
-    if _error in ('packages',):
+    if _error in ("packages",):
         output.eerror("You need to specify exactly one package.\n")
 
     print(white("Usage:"), file=out)
-    if _error in ('global-options', 'packages',) or help == 'all':
-        print(" " + turquoise(__productname__),
-               yellow("[options]"),
-               green("<package> [<package> [...]]"), file=out)
-    if _error in ('global-options',) or help == 'all':
-        print(" " + turquoise(__productname__),
-               yellow("[--help, --version]"), file=out)
+    if (
+        _error
+        in (
+            "global-options",
+            "packages",
+        )
+        or help == "all"
+    ):
+        print(
+            " " + turquoise(__productname__),
+            yellow("[options]"),
+            green("<package> [<package> [...]]"),
+            file=out,
+        )
+    if _error in ("global-options",) or help == "all":
+        print(" " + turquoise(__productname__), yellow("[--help, --version]"), file=out)
 
     print(file=out)
-    if _error in ('global-options',) or help:
+    if _error in ("global-options",) or help:
         print("Available ", yellow("options") + ":", file=out)
-        print(yellow(" -C, --nocolor") +
-            "                      - turn off colors on output", file=out)
-        print(yellow(" -q, --quiet") +
-            "                        - be as quiet as possible", file=out)
-        print(yellow(" -h, --help") +
-            "                         - display the help screen", file=out)
-        print(yellow(" -V, --version") +
-            "                      - display version info", file=out)
+        print(
+            yellow(" -C, --nocolor")
+            + "                      - turn off colors on output",
+            file=out,
+        )
+        print(
+            yellow(" -q, --quiet")
+            + "                        - be as quiet as possible",
+            file=out,
+        )
+        print(
+            yellow(" -h, --help")
+            + "                         - display the help screen",
+            file=out,
+        )
+        print(
+            yellow(" -V, --version") + "                      - display version info",
+            file=out,
+        )
         print(file=out)
-        print(yellow(" -1, --oneshot") +
-            "                      - stop as soon as a new version is found",
-            file=out)
-        print(yellow(" -b, --brute-force=<level>") +
-            "          - define the brute force " + yellow("<level>") +
-            " (default: 2)\n" +
-            " " * 38 + "bigger levels will generate more versions numbers\n" +
-            " " * 38 + "0 means disabled", file=out)
-        print(yellow(" -f, --format=<format>") +
-            "              - define the output " + yellow("<format>") +
-            " (available: json, xml)", file=out)
-        print(yellow(" -p, --progress") +
-            "                     - display a progress bar", file=out)
-        print(yellow(" -i, --ignore-pre-release") +
-            " " * 11 + "- Ignore non-stable versions", file=out)
-        print(yellow(" -I, --ignore-pre-release-if-stable") +
-            " - Ignore non-stable versions only if current\n" +
-            " " * 38 + "version is stable", file=out)
-        print(yellow("     --mirror") +
-            "                       - use mirror:// URIs", file=out)
-        print(yellow("     --ebuild-uri") +
-            "                   - use ebuild variables in URIs", file=out)
-        print(yellow("     --no-handlers") +
-            "                  - exclude handlers (comma-separated list)",
-            file=out)
+        print(
+            yellow(" -1, --oneshot")
+            + "                      - stop as soon as a new version is found",
+            file=out,
+        )
+        print(
+            yellow(" -b, --brute-force=<level>")
+            + "          - define the brute force "
+            + yellow("<level>")
+            + " (default: 2)\n"
+            + " " * 38
+            + "bigger levels will generate more versions numbers\n"
+            + " " * 38
+            + "0 means disabled",
+            file=out,
+        )
+        print(
+            yellow(" -f, --format=<format>")
+            + "              - define the output "
+            + yellow("<format>")
+            + " (available: json, xml)",
+            file=out,
+        )
+        print(
+            yellow(" -p, --progress") + "                     - display a progress bar",
+            file=out,
+        )
+        print(
+            yellow(" -i, --ignore-pre-release")
+            + " " * 11
+            + "- Ignore non-stable versions",
+            file=out,
+        )
+        print(
+            yellow(" -I, --ignore-pre-release-if-stable")
+            + " - Ignore non-stable versions only if current\n"
+            + " " * 38
+            + "version is stable",
+            file=out,
+        )
+        print(
+            yellow("     --mirror") + "                       - use mirror:// URIs",
+            file=out,
+        )
+        print(
+            yellow("     --ebuild-uri")
+            + "                   - use ebuild variables in URIs",
+            file=out,
+        )
+        print(
+            yellow("     --no-handlers")
+            + "                  - exclude handlers (comma-separated list)",
+            file=out,
+        )
         print(file=out)
 
-    if _error in ('packages',) or help:
-        print(green(" package") +
-            " " * 28 + "- the packages (or ebuilds) you want to scan",
-            file=out)
+    if _error in ("packages",) or help:
+        print(
+            green(" package")
+            + " " * 28
+            + "- the packages (or ebuilds) you want to scan",
+            file=out,
+        )
         print(file=out)
 
-        #print( "More detailed instruction can be found in",
-        #turquoise("`man %s`" % __productname__), file=out)
+        # print( "More detailed instruction can be found in",
+        # turquoise("`man %s`" % __productname__), file=out)
 
 
 class ParseArgsException(Exception):
     """For parseArgs() -> main() communications."""
+
     def __init__(self, value):
         self.value = value
 
@@ -168,92 +223,102 @@ def parse_args():
         return_code = True
         for o, a in opts:
             if o in ("-h", "--help"):
-                raise ParseArgsException('help')
+                raise ParseArgsException("help")
             elif o in ("-V", "--version"):
-                raise ParseArgsException('version')
+                raise ParseArgsException("version")
             elif o in ("-C", "--nocolor"):
-                CONFIG['nocolor'] = True
+                CONFIG["nocolor"] = True
                 pp.output.nocolor()
             elif o in ("-q", "--quiet"):
-                CONFIG['quiet'] = True
-                CONFIG['verbose'] = 0
+                CONFIG["quiet"] = True
+                CONFIG["verbose"] = 0
             elif o in ("-1", "--oneshot"):
-                CONFIG['oneshot'] = True
+                CONFIG["oneshot"] = True
             elif o in ("-b", "--brute-force"):
-                CONFIG['brute-force'] = int(a)
-            elif o in ("-v", "--verbose") and not CONFIG['quiet']:
-                CONFIG['verbose'] += 1
+                CONFIG["brute-force"] = int(a)
+            elif o in ("-v", "--verbose") and not CONFIG["quiet"]:
+                CONFIG["verbose"] += 1
             elif o in ("-f", "--format"):
-                CONFIG['format'] = a
-                CONFIG['nocolor'] = True
+                CONFIG["format"] = a
+                CONFIG["nocolor"] = True
                 pp.output.nocolor()
             elif o in ("-p", "--progress"):
-                CONFIG['progress'] = isatty_stderr
+                CONFIG["progress"] = isatty_stderr
             elif o in ("--mirror"):
-                CONFIG['mirror'] = True
+                CONFIG["mirror"] = True
             elif o in ("-i", "--ignore-pre-release"):
-                CONFIG['ignore-pre-release'] = True
+                CONFIG["ignore-pre-release"] = True
             elif o in ("-I", "--ignore-pre-release-if-stable"):
-                CONFIG['ignore-pre-release-if-stable'] = True
+                CONFIG["ignore-pre-release-if-stable"] = True
             elif o in ("--ebuild-uri"):
-                CONFIG['ebuild-uri'] = True
+                CONFIG["ebuild-uri"] = True
             elif o in ("--no-handlers"):
-                CONFIG['handlers-exclude'] = a.split(",")
+                CONFIG["handlers-exclude"] = a.split(",")
             else:
                 return_code = False
 
         return return_code
 
     # here are the different allowed command line options (getopt args)
-    getopt_options = {'short': {}, 'long': {}}
-    getopt_options['short']['global'] = "hVCqv1b:f:piI"
-    getopt_options['long']['global'] = [
-        "help", "version", "nocolor", "quiet", "verbose", "oneshot",
-        "brute-force=", "format=", "progress", "mirror", "ignore-pre-release",
-        "ignore-pre-release-if-stable", "ebuild-uri", "no-handlers="
+    getopt_options = {"short": {}, "long": {}}
+    getopt_options["short"]["global"] = "hVCqv1b:f:piI"
+    getopt_options["long"]["global"] = [
+        "help",
+        "version",
+        "nocolor",
+        "quiet",
+        "verbose",
+        "oneshot",
+        "brute-force=",
+        "format=",
+        "progress",
+        "mirror",
+        "ignore-pre-release",
+        "ignore-pre-release-if-stable",
+        "ebuild-uri",
+        "no-handlers=",
     ]
 
-    short_opts = getopt_options['short']['global']
-    long_opts = getopt_options['long']['global']
-    opts_mode = 'global'
+    short_opts = getopt_options["short"]["global"]
+    long_opts = getopt_options["long"]["global"]
+    opts_mode = "global"
 
     # apply getopts to command line, show partial help on failure
     try:
         opts, args = getopt.getopt(sys.argv[1:], short_opts, long_opts)
     except:
-        raise ParseArgsException(opts_mode + '-options')
+        raise ParseArgsException(opts_mode + "-options")
 
     # set options accordingly
     option_switch(opts)
 
     if len(args) < 1:
-        raise ParseArgsException('packages')
+        raise ParseArgsException("packages")
 
     return args
 
 
 def main():
     """Parse command line and execute all actions."""
-    CONFIG['nocolor'] = (
-        CONFIG['nocolor'] or
-        (settings["NOCOLOR"] in ('yes', 'true') or not isatty)
+    CONFIG["nocolor"] = CONFIG["nocolor"] or (
+        settings["NOCOLOR"] in ("yes", "true") or not isatty
     )
-    if CONFIG['nocolor']:
+    if CONFIG["nocolor"]:
         pp.output.nocolor()
 
     # parse command line options and actions
     try:
         queries = parse_args()
     except ParseArgsException as e:
-        if e.value == 'help':
-            print_usage(help='all')
+        if e.value == "help":
+            print_usage(help="all")
             exit_helper(0)
 
-        elif e.value[:5] == 'help-':
+        elif e.value[:5] == "help-":
             print_usage(help=e.value[5:])
             exit_helper(0)
 
-        elif e.value == 'version':
+        elif e.value == "version":
             print_version()
             exit_helper(0)
 
@@ -261,14 +326,14 @@ def main():
             print_usage(e.value)
             exit_helper(EINVAL)
 
-    if CONFIG['verbose'] > 2:
+    if CONFIG["verbose"] > 2:
         HTTPConnection.debuglevel = 1
 
-    if not CONFIG["format"] and not CONFIG['quiet']:
+    if not CONFIG["format"] and not CONFIG["quiet"]:
         CONFIG["progress"] = False
 
     on_progress = None
-    if CONFIG['progress']:
+    if CONFIG["progress"]:
         on_progress_gen = progress_bar()
         on_progress = next(on_progress_gen)
         on_progress(maxval=len(queries) * 100, increment=0, label="Working...")
@@ -293,35 +358,36 @@ def main():
             from os.path import basename  # To get the short name
 
             output.eerror(
-                "The short ebuild name '%s' is ambiguous. Please specify" %
-                    basename(pkgs[0]) +
-                "one of the above fully-qualified ebuild names instead."
+                "The short ebuild name '%s' is ambiguous. Please specify"
+                % basename(pkgs[0])
+                + "one of the above fully-qualified ebuild names instead."
             )
             exit_helper(1)
 
         except GentoolkitException as err:
-            output.eerror('%s: %s' % (query, str(err)))
+            output.eerror("%s: %s" % (query, str(err)))
             exit_helper(1)
 
         except Exception as err:
             import traceback
-            print ('-' * 60)
-            traceback.print_exc(file=sys.stderr)
-            print ('-' * 60)
 
-            output.eerror('%s: %s' % (query, str(err)))
+            print("-" * 60)
+            traceback.print_exc(file=sys.stderr)
+            print("-" * 60)
+
+            output.eerror("%s: %s" % (query, str(err)))
             exit_helper(1)
 
-        if not ret and not CONFIG['quiet']:
+        if not ret and not CONFIG["quiet"]:
             output.einfo(
-                "Didn't find any new version, check package's homepage " +
-                "for more informations"
+                "Didn't find any new version, check package's homepage "
+                + "for more informations"
             )
 
-        if not (CONFIG['format'] or CONFIG['quiet']) and len(queries) > 1:
+        if not (CONFIG["format"] or CONFIG["quiet"]) and len(queries) > 1:
             print("")
 
-    if CONFIG['progress']:
+    if CONFIG["progress"]:
         next(on_progress_gen)
         print("\n", file=sys.stderr)
 

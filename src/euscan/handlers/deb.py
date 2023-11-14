@@ -19,7 +19,7 @@ def can_handle(pkg, url=None):
 def scan_pkg(pkg, options):
     cp, ver, rev = portage.pkgsplit(pkg.cpv)
 
-    packages_url, package_name = options['data'].strip().split(" ", 1)
+    packages_url, package_name = options["data"].strip().split(" ", 1)
 
     output.einfo("Using Debian Packages: " + packages_url)
 

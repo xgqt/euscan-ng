@@ -21,18 +21,17 @@ from euscan.version import parse_version
 
 def htop_vercmp(a, b):
     def fixver(v):
-        if v in ['0.11', '0.12', '0.13']:
-            v = '0.1.' + v[3:]
+        if v in ["0.11", "0.12", "0.13"]:
+            v = "0.1." + v[3:]
         return v
 
     return simple_vercmp(fixver(a), fixver(b))
 
-VERSION_CMP_PACKAGE_QUIRKS = {
-    'sys-process/htop': htop_vercmp
-}
 
-_v_end = r'(?:(?:-|_)(?:pre|p|beta|b|alpha|a|rc|r)\d*)'
-_v = r'((?:\d+)(?:(?:\.\d+)*)(?:[a-zA-Z]*?)(?:' + _v_end + '*))'
+VERSION_CMP_PACKAGE_QUIRKS = {"sys-process/htop": htop_vercmp}
+
+_v_end = r"(?:(?:-|_)(?:pre|p|beta|b|alpha|a|rc|r)\d*)"
+_v = r"((?:\d+)(?:(?:\.\d+)*)(?:[a-zA-Z]*?)(?:" + _v_end + "*))"
 
 
 def cast_int_components(version):
@@ -75,15 +74,15 @@ def version_is_nightly(a, b):
     b = parse_version(b)
 
     # Try to skip nightly builds when not wanted (www-apps/moodle)
-    if len(a) != len(b) and len(b) == 2 and len(b[0]) == len('yyyymmdd'):
-        if b[0][:4] != '0000':
+    if len(a) != len(b) and len(b) == 2 and len(b[0]) == len("yyyymmdd"):
+        if b[0][:4] != "0000":
             return True
     return False
 
 
 def version_blacklisted(cp, version):
     rule = None
-    cpv = '%s-%s' % (cp, version)
+    cpv = "%s-%s" % (cp, version)
 
     # Check that the generated cpv can be used by portage
     if not portage.versions.catpkgsplit(cpv):
@@ -104,10 +103,10 @@ def version_change_end_sep(version):
     if not match:
         return None
     end = match.group(1)
-    if end[0] == '_':
-        newend = end.replace('_', '-')
-    elif end[0] == '-':
-        newend = end.replace('-', '_')
+    if end[0] == "_":
+        newend = end.replace("_", "-")
+    elif end[0] == "-":
+        newend = end.replace("-", "_")
     else:
         return None
     return version.replace(end, newend)
@@ -135,17 +134,17 @@ def generate_templates_vars(version):
         var = []
         for j in range(i):
             ver.append(str(part[j]))
-            var.append('${%d}' % j)
+            var.append("${%d}" % j)
 
         ret.append((".".join(ver), ".".join(var)))
-    ret.append((version, '${PV}'))
+    ret.append((version, "${PV}"))
     ret.reverse()
     return ret
 
 
 def template_from_url(url, version):
-    prefix, chunks = url.split('://')
-    chunks = chunks.split('/')
+    prefix, chunks = url.split("://")
+    chunks = chunks.split("/")
 
     for i in range(len(chunks)):
         chunk = chunks[i]
@@ -162,9 +161,9 @@ def template_from_url(url, version):
 def url_from_template(url, version):
     components = split_version(version)
 
-    url = url.replace('${PV}', version)
+    url = url.replace("${PV}", version)
     for i in range(len(components)):
-        url = url.replace('${%d}' % i, str(components[i]))
+        url = url.replace("${%d}" % i, str(components[i]))
 
     return url
 
@@ -172,8 +171,8 @@ def url_from_template(url, version):
 # Stolen from distutils.LooseVersion
 # Used for brute force to increment the version
 def split_version(version):
-    component_re = re.compile(r'(\d+ | [a-z]+ | \.)', re.VERBOSE)
-    components = [x for x in component_re.split(version) if x and x != '.']
+    component_re = re.compile(r"(\d+ | [a-z]+ | \.)", re.VERBOSE)
+    components = [x for x in component_re.split(version) if x and x != "."]
     for i in range(len(components)):
         try:
             components[i] = int(components[i])
@@ -229,7 +228,7 @@ def gen_versions(components, level):
 
 
 def timeout_for_url(url):
-    if 'sourceforge' in url:
+    if "sourceforge" in url:
         timeout = 15
     else:
         timeout = 5
@@ -246,7 +245,7 @@ rpcache = {}
 
 
 def urlallowed(url):
-    if CONFIG['skip-robots-txt']:
+    if CONFIG["skip-robots-txt"]:
         return True
 
     protocol, domain = urllib.parse.urlparse(url)[:2]
@@ -255,15 +254,15 @@ def urlallowed(url):
         if re.match(bd, domain):
             return True
 
-    for d in ['sourceforge', 'berlios', 'github.com']:
+    for d in ["sourceforge", "berlios", "github.com"]:
         if d in domain:
             return True
 
-    if protocol == 'ftp':
+    if protocol == "ftp":
         return True
 
-    baseurl = '%s://%s' % (protocol, domain)
-    robotsurl = urllib.parse.urljoin(baseurl, 'robots.txt')
+    baseurl = "%s://%s" % (protocol, domain)
+    robotsurl = urllib.parse.urljoin(baseurl, "robots.txt")
 
     if baseurl in rpcache:
         rp = rpcache[baseurl]
@@ -283,7 +282,7 @@ def urlallowed(url):
 
         setdefaulttimeout(timeout)
 
-    return rp.can_fetch(CONFIG['user-agent'], url) if rp else True
+    return rp.can_fetch(CONFIG["user-agent"], url) if rp else True
 
 
 def urlopen(url, timeout=None, verb="GET"):
@@ -294,23 +293,24 @@ def urlopen(url, timeout=None, verb="GET"):
     if not timeout:
         timeout = timeout_for_url(url)
 
-    if verb == 'GET':
+    if verb == "GET":
         request = urllib.request.Request(url)
-    elif verb == 'HEAD':
+    elif verb == "HEAD":
         request = HeadRequest(url)
     else:
         return None
 
-    request.add_header('User-Agent', CONFIG['user-agent'])
+    request.add_header("User-Agent", CONFIG["user-agent"])
 
     handlers = []
 
-    if CONFIG['cache']:
+    if CONFIG["cache"]:
         from cache import CacheHandler
-        handlers.append(CacheHandler(CONFIG['cache']))
 
-    if CONFIG['verbose']:
-        debuglevel = CONFIG['verbose'] - 1
+        handlers.append(CacheHandler(CONFIG["cache"]))
+
+    if CONFIG["verbose"]:
+        debuglevel = CONFIG["verbose"] - 1
         handlers.append(urllib.request.HTTPHandler(debuglevel=debuglevel))
 
     opener = urllib.request.build_opener(*handlers)
@@ -330,7 +330,7 @@ def tryurl(fileurl, template):
     try:
         basename = os.path.basename(fileurl)
 
-        fp = urlopen(fileurl, verb='HEAD')
+        fp = urlopen(fileurl, verb="HEAD")
         if not fp:
             euscan.output.eend(errno.EPERM)
             return None
@@ -339,16 +339,17 @@ def tryurl(fileurl, template):
 
         # Some URLs return Content-disposition with different filename
         # Disable check for now (I have no seen false positives)
-        #if 'Content-disposition' in headers and \
+        # if 'Content-disposition' in headers and \
         #   basename not in headers['Content-disposition']:
         #    result = None
-        if 'Content-Length' in headers and headers['Content-Length'] == '0':
+        if "Content-Length" in headers and headers["Content-Length"] == "0":
             result = None
-        elif 'Content-Type' in headers and \
-             'text/html' in headers['Content-Type']:
+        elif "Content-Type" in headers and "text/html" in headers["Content-Type"]:
             result = None
-        elif 'Content-Type' in headers and \
-             'application/x-httpd-php' in headers['Content-Type']:
+        elif (
+            "Content-Type" in headers
+            and "application/x-httpd-php" in headers["Content-Type"]
+        ):
             result = None
         elif fp.geturl() != fileurl:
             regex = regex_from_template(template)
@@ -356,8 +357,9 @@ def tryurl(fileurl, template):
             basename2 = os.path.basename(fp.geturl())
 
             # Redirect to another (earlier?) version
-            if basename != basename2 and (re.match(regex, fp.geturl()) or \
-               re.match(baseregex, basename2)):
+            if basename != basename2 and (
+                re.match(regex, fp.geturl()) or re.match(baseregex, basename2)
+            ):
                 result = None
 
             if result:
@@ -378,33 +380,33 @@ def regex_from_template(template):
     regexp = re.escape(template)
 
     # Unescape specific stuff
-    regexp = regexp.replace('\$\{', '${')
-    regexp = regexp.replace('\}', '}')
-    regexp = regexp.replace('}\.$', '}.$')
+    regexp = regexp.replace("\$\{", "${")
+    regexp = regexp.replace("\}", "}")
+    regexp = regexp.replace("}\.$", "}.$")
 
     # Replace ${\d+}
-    #regexp = regexp.replace('${0}', r'([\d]+?)')
-    regexp = re.sub(r'(\$\{\d+\}(\.?))+', r'([\\w\.]+?)', regexp)
+    # regexp = regexp.replace('${0}', r'([\d]+?)')
+    regexp = re.sub(r"(\$\{\d+\}(\.?))+", r"([\\w\.]+?)", regexp)
 
-    #regexp = re.sub(r'(\$\{\d+\}\.?)+', r'([\w]+?)', regexp)
-    #regexp = re.sub(r'(\$\{\d+\}\.+)+', '(.+?)\.', regexp)
-    #regexp = re.sub(r'(\$\{\d+\})+', '(.+?)', regexp)
+    # regexp = re.sub(r'(\$\{\d+\}\.?)+', r'([\w]+?)', regexp)
+    # regexp = re.sub(r'(\$\{\d+\}\.+)+', '(.+?)\.', regexp)
+    # regexp = re.sub(r'(\$\{\d+\})+', '(.+?)', regexp)
 
     # Full version
-    regexp = regexp.replace('${PV}', _v)
+    regexp = regexp.replace("${PV}", _v)
 
     # End
-    regexp = regexp + r'/?$'
+    regexp = regexp + r"/?$"
 
     return regexp
 
 
 def basedir_from_template(template):
-    idx = template.find('${')
+    idx = template.find("${")
     if idx == -1:
         return template
 
-    idx = template[0:idx].rfind('/')
+    idx = template[0:idx].rfind("/")
     if idx == -1:
         return ""
 
@@ -412,15 +414,15 @@ def basedir_from_template(template):
 
 
 def generate_scan_paths(url):
-    prefix, chunks = url.split('://')
-    chunks = chunks.split('/')
+    prefix, chunks = url.split("://")
+    chunks = chunks.split("/")
 
     steps = []
 
     path = prefix + ":/"
     for chunk in chunks:
-        if '${' in chunk:
-            steps.append((path, '^(?:|.*/)'  + regex_from_template(chunk)))
+        if "${" in chunk:
+            steps.append((path, "^(?:|.*/)" + regex_from_template(chunk)))
             path = ""
         else:
             path += "/"
@@ -444,7 +446,7 @@ def parse_mirror(uri):
         return None
 
     mirrorname = uri[9:eidx]
-    path = uri[eidx + 1:]
+    path = uri[eidx + 1 :]
 
     if mirrorname in mirrors:
         mirrors = mirrors[mirrorname]

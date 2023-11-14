@@ -31,11 +31,11 @@ def apply_mangling_rules(kind, rules, string):
         ret = None
 
         # First try handlers rules
-        if rule == 'gentoo' and kind == 'versionmangle':
+        if rule == "gentoo" and kind == "versionmangle":
             ret = gentoo_mangle_version(string)
-        elif kind == 'downloadurlmangle':
+        elif kind == "downloadurlmangle":
             ret = euscan.handlers.mangle_url(rule, string)
-        elif kind == 'versionmangle':
+        elif kind == "versionmangle":
             ret = euscan.handlers.mangle_version(rule, string)
 
         if ret is not None:  # Use return value as new string if not None
@@ -48,13 +48,13 @@ def apply_mangling_rules(kind, rules, string):
 
 def mangle_version(up_pv, options):
     # Default rule is gentoo when empty
-    if 'versionmangle' not in options or not options['versionmangle']:
-        options['versionmangle'] = ['gentoo']
-    return apply_mangling_rules('versionmangle', options, up_pv)
+    if "versionmangle" not in options or not options["versionmangle"]:
+        options["versionmangle"] = ["gentoo"]
+    return apply_mangling_rules("versionmangle", options, up_pv)
 
 
 def mangle_url(url, options):
-    return apply_mangling_rules('downloadurlmangle', options, url)
+    return apply_mangling_rules("downloadurlmangle", options, url)
 
 
 # Stolen from g-pypi
@@ -107,30 +107,28 @@ def gentoo_mangle_version(up_pv):
     number of match.groups every time to simplify the code
 
     """
-    bad_suffixes = re.compile(
-        r'((?:[._-]*)(?:dev|devel|final|stable|snapshot)$)', re.I)
-    revision_suffixes = re.compile(
-        r'(.*?)([\._-]*(?:r|patch|p)[\._-]*)([0-9]*)$', re.I)
+    bad_suffixes = re.compile(r"((?:[._-]*)(?:dev|devel|final|stable|snapshot)$)", re.I)
+    revision_suffixes = re.compile(r"(.*?)([\._-]*(?:r|patch|p)[\._-]*)([0-9]*)$", re.I)
     suf_matches = {
-        '_pre': [
-            r'(.*?)([\._-]*dev[\._-]*r?)([0-9]+)$',
-            r'(.*?)([\._-]*(?:pre|preview)[\._-]*)([0-9]*)$',
-            ],
-        '_alpha': [
-            r'(.*?)([\._-]*(?:alpha|test)[\._-]*)([0-9]*)$',
-            r'(.*?)([\._-]*a[\._-]*)([0-9]*)$',
-            r'(.*[^a-z])(a)([0-9]*)$',
-            ],
-        '_beta': [
-            r'(.*?)([\._-]*beta[\._-]*)([0-9]*)$',
-            r'(.*?)([\._-]*b)([0-9]*)$',
-            r'(.*[^a-z])(b)([0-9]*)$',
-            ],
-        '_rc': [
-            r'(.*?)([\._-]*rc[\._-]*)([0-9]*)$',
-            r'(.*?)([\._-]*c[\._-]*)([0-9]*)$',
-            r'(.*[^a-z])(c[\._-]*)([0-9]+)$',
-            ],
+        "_pre": [
+            r"(.*?)([\._-]*dev[\._-]*r?)([0-9]+)$",
+            r"(.*?)([\._-]*(?:pre|preview)[\._-]*)([0-9]*)$",
+        ],
+        "_alpha": [
+            r"(.*?)([\._-]*(?:alpha|test)[\._-]*)([0-9]*)$",
+            r"(.*?)([\._-]*a[\._-]*)([0-9]*)$",
+            r"(.*[^a-z])(a)([0-9]*)$",
+        ],
+        "_beta": [
+            r"(.*?)([\._-]*beta[\._-]*)([0-9]*)$",
+            r"(.*?)([\._-]*b)([0-9]*)$",
+            r"(.*[^a-z])(b)([0-9]*)$",
+        ],
+        "_rc": [
+            r"(.*?)([\._-]*rc[\._-]*)([0-9]*)$",
+            r"(.*?)([\._-]*c[\._-]*)([0-9]*)$",
+            r"(.*[^a-z])(c[\._-]*)([0-9]+)$",
+        ],
     }
     rs_match = None
     pv = up_pv
@@ -139,9 +137,9 @@ def gentoo_mangle_version(up_pv):
     rev_match = revision_suffixes.search(up_pv)
     if rev_match:
         pv = up_pv = rev_match.group(1)
-        replace_me = rev_match.group(2)
+        # replace_me = rev_match.group(2)
         rev = rev_match.group(3)
-        additional_version = '_p' + rev
+        additional_version = "_p" + rev
 
     for this_suf in list(suf_matches.keys()):
         if rs_match:
@@ -156,7 +154,7 @@ def gentoo_mangle_version(up_pv):
     if rs_match:
         # e.g. 1.0.dev-r1234
         major_ver = rs_match.group(1)  # 1.0
-        replace_me = rs_match.group(2)  # .dev-r
+        # replace_me = rs_match.group(2)  # .dev-r
         rev = rs_match.group(3)  # 1234
         pv = major_ver + portage_suffix + rev
     else:
@@ -164,7 +162,7 @@ def gentoo_mangle_version(up_pv):
         match = bad_suffixes.search(up_pv)
         if match:
             suffix = match.groups()[0]
-            pv = up_pv[: - (len(suffix))]
+            pv = up_pv[: -(len(suffix))]
 
     pv = pv + additional_version
 

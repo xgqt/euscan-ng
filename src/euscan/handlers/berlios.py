@@ -36,19 +36,13 @@ def scan_url(pkg, url, options):
     project_page = "http://developer.berlios.de/projects/%s" % project
     content = urllib.request.urlopen(project_page).read()
 
-    project_id = re.search(
-        r"/project/filelist.php\?group_id=(\d+)",
-        content
-    ).group(1)
+    project_id = re.search(r"/project/filelist.php\?group_id=(\d+)", content).group(1)
 
     base_url = (
-        "http://developer.berlios.de/project/filelist.php?group_id=%s" %
-        project_id
+        "http://developer.berlios.de/project/filelist.php?group_id=%s" % project_id
     )
 
-    file_pattern = regex_from_template(
-        filename.replace(ver, "${PV}")
-    )
+    file_pattern = regex_from_template(filename.replace(ver, "${PV}"))
 
     result = url_scan(pkg, base_url, file_pattern)
 

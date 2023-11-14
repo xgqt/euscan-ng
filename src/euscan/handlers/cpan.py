@@ -13,7 +13,7 @@ _cpan_package_name_re = re.compile("mirror://cpan/authors/.*/([^/.]*).*")
 
 
 def can_handle(pkg, url=None):
-    return url and url.startswith('mirror://cpan/')
+    return url and url.startswith("mirror://cpan/")
 
 
 def guess_package(cp, url):
@@ -24,7 +24,7 @@ def guess_package(cp, url):
     if match:
         pkg = match.group(1)
         try:
-            cp, ver, rev = portage.pkgsplit('fake/' + pkg)
+            cp, ver, rev = portage.pkgsplit("fake/" + pkg)
         except:
             pass
 
@@ -34,7 +34,7 @@ def guess_package(cp, url):
 
 
 def mangle_version(up_pv):
-    if up_pv.startswith('v'):
+    if up_pv.startswith("v"):
         return up_pv[1:]
 
     # clean
@@ -53,14 +53,14 @@ def mangle_version(up_pv):
     if len(splitted) == 2:  # Split second part is sub-groups
         part = splitted.pop()
         for i in range(0, len(part), 3):
-            splitted.append(part[i:i + 3])
+            splitted.append(part[i : i + 3])
 
     if len(splitted) == 2:  # add last group if it's missing
         splitted.append("0")
 
     groups = [splitted[0]]
     for part in splitted[1:-1]:
-            groups.append(part.ljust(3, "0"))
+        groups.append(part.ljust(3, "0"))
     if splitted[-1] == "0":
         groups.append(splitted[-1])
     else:
@@ -78,11 +78,11 @@ def mangle_version(up_pv):
 
 
 def cpan_mangle_version(pv):
-    pos = pv.find('.')
+    pos = pv.find(".")
     if pos <= 0:
         return pv
-    up_pv = pv.replace('.', '')
-    up_pv = up_pv[0:pos] + '.' + up_pv[pos:]
+    up_pv = pv.replace(".", "")
+    up_pv = up_pv[0:pos] + "." + up_pv[pos:]
     return up_pv
 
 
@@ -99,17 +99,17 @@ def scan_url(pkg, url, options):
 
     output.einfo("Using CPAN API: %s", remote_pkg)
 
-    return scan_pkg(pkg, {'data': remote_pkg})
+    return scan_pkg(pkg, {"data": remote_pkg})
 
 
 def scan_pkg(pkg, options):
-    remote_pkg = options['data']
+    remote_pkg = options["data"]
 
     # Defaults to CPAN mangling rules
-    if 'versionmangle' not in options:
-        options['versionmangle'] = ['cpan', 'gentoo']
+    if "versionmangle" not in options:
+        options["versionmangle"] = ["cpan", "gentoo"]
 
-    url = 'http://search.cpan.org/api/dist/%s' % remote_pkg
+    url = "http://search.cpan.org/api/dist/%s" % remote_pkg
     cp, ver, rev = pkg.cp, pkg.version, pkg.revision
     m_ver = cpan_mangle_version(ver)
 
@@ -128,19 +128,19 @@ def scan_pkg(pkg, options):
     data = fp.read()
     data = json.loads(data)
 
-    if 'releases' not in data:
+    if "releases" not in data:
         return []
 
     ret = []
 
-    for version in data['releases']:
-        #if version['status'] == 'testing':
+    for version in data["releases"]:
+        # if version['status'] == 'testing':
         #    continue
 
-        up_pv = version['version']
+        up_pv = version["version"]
         pv = mangling.mangle_version(up_pv, options)
 
-        if up_pv.startswith('v'):
+        if up_pv.startswith("v"):
             if helpers.version_filtered(cp, ver, pv):
                 continue
         else:
@@ -148,11 +148,11 @@ def scan_pkg(pkg, options):
             if helpers.version_filtered(cp, m_ver, m_pv, cpan_vercmp):
                 continue
 
-        url = 'mirror://cpan/authors/id/%s/%s/%s/%s' % (
-            version['cpanid'][0],
-            version['cpanid'][0:1],
-            version['cpanid'],
-            version['archive']
+        url = "mirror://cpan/authors/id/%s/%s/%s/%s" % (
+            version["cpanid"][0],
+            version["cpanid"][0:1],
+            version["cpanid"],
+            version["archive"],
         )
 
         url = mangling.mangle_url(url, options)

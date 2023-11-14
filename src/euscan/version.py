@@ -25,24 +25,24 @@ def get_version_type(version):
         return types[0]  # TODO: consider returning all types
     return "release"
 
+
 # Stolen from pkg_resources, but importing it is not a good idea
 
-component_re = re.compile(r'(\d+ | [a-z]+ | \.| -)', re.VERBOSE)
-replace = \
-    {'pre': 'c', 'preview': 'c', '-': 'final-', 'rc': 'c', 'dev': '@'}.get
+component_re = re.compile(r"(\d+ | [a-z]+ | \.| -)", re.VERBOSE)
+replace = {"pre": "c", "preview": "c", "-": "final-", "rc": "c", "dev": "@"}.get
 
 
 def _parse_version_parts(s):
     for part in component_re.split(s):
         part = replace(part, part)
-        if not part or part == '.':
+        if not part or part == ".":
             continue
-        if part[:1] in '0123456789':
-            yield part.zfill(8)    # pad for numeric comparison
+        if part[:1] in "0123456789":
+            yield part.zfill(8)  # pad for numeric comparison
         else:
-            yield '*' + part
+            yield "*" + part
 
-    yield '*final'  # ensure that alpha/beta/candidate are before final
+    yield "*final"  # ensure that alpha/beta/candidate are before final
 
 
 def parse_version(s):
@@ -78,12 +78,12 @@ def parse_version(s):
     """
     parts = []
     for part in _parse_version_parts(s.lower()):
-        if part.startswith('*'):
-            if part < '*final':  # remove '-' before a prerelease tag
-                while parts and parts[-1] == '*final-':
+        if part.startswith("*"):
+            if part < "*final":  # remove '-' before a prerelease tag
+                while parts and parts[-1] == "*final-":
                     parts.pop()
             # remove trailing zeros from each series of numeric parts
-            while parts and parts[-1] == '00000000':
+            while parts and parts[-1] == "00000000":
                 parts.pop()
         parts.append(part)
     return tuple(parts)
