@@ -1,0 +1,25 @@
+image: python:latest
+
+variables:
+  PIP_CACHE_DIR: ${CI_PROJECT_DIR}/.cache/pip
+
+cache:
+  paths:
+    - ${PIP_CACHE_DIR}
+
+before_script:
+  - python --version ; pip --version
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+
+pre-commit:
+  variables:
+    PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
+  cache:
+    paths:
+      - ${PRE_COMMIT_HOME}
+  script:
+    - pip install pre-commit
+    - pre-commit run --all-files
+
