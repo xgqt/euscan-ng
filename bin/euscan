@@ -10,7 +10,7 @@ import os
 
 __author__ = "Corentin Chary (iksaif)"
 __email__ = "corentin.chary@gmail.com"
-__productname__ = "euscan"
+__productname__ = "euscan-ng"
 __description__ = "A tool to detect new upstream releases."
 
 
@@ -59,10 +59,10 @@ def setup_signals():
 
 def print_version():
     """Output the version info."""
-    print("%s (%s) - %s" % (__productname__, __version__, __description__))
+    print(f"{__productname__} ({__version__}) - {__description__}")
     print()
-    print("Author: %s <%s>" % (__author__, __email__))
-    print("Copyright 2011 Gentoo Foundation")
+    print(f"Copyright 2011 {__author__} <{__email__}>")
+    print("Copyright 2020-2023 src_prepare group")
     print("Distributed under the terms of the GNU General Public License v2")
 
 
