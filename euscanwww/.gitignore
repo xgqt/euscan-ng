@@ -1,6 +1,0 @@
-var/cache/*/
-var/charts/*.png
-var/rrd/*.rrd
-var/db/euscan.db
-var/db/euscan.db-journal
-local_settings.py
