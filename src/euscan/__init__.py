@@ -16,7 +16,7 @@ CONFIG = {
     "brute-force-false-watermark": 50,
     "scan-dir": True,
     "oneshot": True,
-    "user-agent": "escan (http://euscan.iksaif.net)",
+    "user-agent": "euscan-ng (https://gitlab.com/src_prepare/euscan-ng)",
     "skip-robots-txt": False,
     "cache": False,
     "format": None,
