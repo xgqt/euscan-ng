@@ -76,24 +76,6 @@ packages = [
     if '__init__.py' in files
 ]
 
-web_require = [
-    'Django>=1.4',
-    'South>=0.7',
-    'ansi2html>=0.9.1',
-    'django-annoying>=0.7.6',
-    'django-auth-ldap>=1.1',
-    'django-celery>=3.0.1',
-    'django-piston>=0.2.3',
-    'django-recaptcha>=0.0.4',
-    'django-registration>=0.8',
-    'matplotlib>=1.1.0',
-    'python-ldap>=2.4.10',
-]
-
-tests_require = [
-    'factory-boy>=1.1.3',
-]
-
 setup(
     name='euscan',
     version=__version__,
@@ -122,10 +104,4 @@ setup(
     cmdclass={
         'set_version': SetVersion,
     },
-    tests_require=tests_require,
-    extras_require={
-        'test': tests_require,
-        'web': web_require
-    },
-    test_suite='euscanwww.runtests.runtests',
 )

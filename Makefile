@@ -7,7 +7,6 @@ BIN = euscan
 	clean
 	install-user
 	install-user-test
-	install-user-web
 	install
 	uninstall distclean
 
@@ -22,9 +21,6 @@ install-user:
 
 install-user-test:
 	pip install --user .'[test]'
-
-install-user-web:
-	pip install --user .'[web]'
 
 install: install-user
 
