@@ -1,6 +1,5 @@
-#!/usr/bin/python
-#
 # Copyright 2011 Corentin Chary <corentin.chary@gmail.com>
+# Copyright 2020-2023 src_prepare group
 # Distributed under the terms of the GNU General Public License v2
 
 import configparser
