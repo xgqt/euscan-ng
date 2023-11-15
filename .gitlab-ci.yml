@@ -23,3 +23,14 @@ pre-commit:
     - pip install pre-commit
     - pre-commit run --all-files
 
+publish:
+  variables:
+    TWINE_PASSWORD: ${CI_JOB_TOKEN}
+    TWINE_USERNAME: gitlab-ci-token
+    TWINE_REPOSITORY_URL: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi
+    TWINE_NON_INTERACTIVE: 1
+  when: manual # gentoolkit as a dependency blocks publishing for now
+  script:
+    - pip install build twine
+    - python -m build
+    - python -m twine upload --verbose dist/*
