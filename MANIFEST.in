@@ -1,8 +1,8 @@
 include AUTHORS
+include CHANGELOG.rst
 include LICENSE
 include README.rst
 include TODO
-include setup.py
+include pyproject.toml
 recursive-include bin *
-recursive-include man *
-recursive-include pym *.py
+recursive-include src *.py
