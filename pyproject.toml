@@ -42,4 +42,4 @@ src_paths = ["bin/euscan", "src/euscan/"]
 extend-include = ["bin/euscan", "bin/euscan_patch_metadata"]
 
 [tool.ruff.lint]
-extend-select = ["E", "N", "UP", "W"]
+extend-select = ["B", "E", "N", "UP", "W"]

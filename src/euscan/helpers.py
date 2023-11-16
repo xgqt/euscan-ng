@@ -92,7 +92,6 @@ def version_blacklisted(cp, version):
     for bv in BLACKLIST_VERSIONS:
         if dep.match_from_list(bv, [cpv]):
             rule = bv
-            None
 
     if rule:
         euscan.output.einfo(f"{cpv} is blacklisted by rule {rule}")
@@ -223,7 +222,7 @@ def gen_versions(components, level):
 
     for i in range(n, n - level, -1):
         increment_version(components, i - 1)
-        for j in range(depth):
+        for _j in range(depth):
             versions.append(list(components))
             increment_version(components, i - 1)
 

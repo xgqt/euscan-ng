@@ -283,8 +283,8 @@ def parse_args():
     # apply getopts to command line, show partial help on failure
     try:
         opts, args = getopt.getopt(sys.argv[1:], short_opts, long_opts)
-    except getopt.GetoptError:
-        raise ParseArgsError(opts_mode + "-options")
+    except getopt.GetoptError as exc:
+        raise ParseArgsError(opts_mode + "-options") from exc
 
     # set options accordingly
     option_switch(opts)
