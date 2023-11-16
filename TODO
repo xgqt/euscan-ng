@@ -50,16 +50,3 @@ euscan
 - Propose new remote-id: freecode
   e.g.: <remote-id type="freecode">projectname</remote-id>
 
-### API (LOW-PRIORITY)
-
-- Move to tastypie
-
-### Overlays
-
-/!\ blocked by "djportage" application
-Currently, overlay handling in euscan sucks (it's simply a column nothing more, and they are mostly handled by hand by layman). I'd like to be able to add and remove overlays (overlay name + svn/git/cvs/rsync url). Using a new model and layman API should make this task easy.
-
-/!\ could be done earlier using a simple "overlay" table ... but how to pre-compute everything per-overlay ?
-Once done, a great feature would be to be able to select displayed overlay on euscan (as a global setting: for all pages). This is actually a lot of work, so you should work on that on a separated branch.
-
-Note that this is more complicated that it seems, because a lot of things are precalculated (number of version for this herd, number of outdated versions, etc..), and selecting overlays would break all this. So you'll really need to experiment solutions for this one.
