@@ -22,6 +22,7 @@ dynamic = ["version"]
 
 [project.urls]
 homepage = "https://gitlab.com/src_prepare/euscan-ng"
+changelog = "https://gitlab.com/src_prepare/euscan-ng/-/blob/master/CHANGELOG.rst"
 
 [tool.setuptools]
 script-files = ["bin/euscan"]
