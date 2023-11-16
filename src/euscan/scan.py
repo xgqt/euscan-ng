@@ -76,14 +76,14 @@ def reload_gentoolkit():
     if not hasattr(gentoolkit.package, "PORTDB"):
         return
 
-    PORTDB = portage.db[portage.root]["porttree"].dbapi
+    portdb = portage.db[portage.root]["porttree"].dbapi
 
     if hasattr(gentoolkit.dbapi, "PORTDB"):
-        gentoolkit.dbapi.PORTDB = PORTDB
+        gentoolkit.dbapi.PORTDB = portdb
     if hasattr(gentoolkit.package, "PORTDB"):
-        gentoolkit.package.PORTDB = PORTDB
+        gentoolkit.package.PORTDB = portdb
     if hasattr(gentoolkit.query, "PORTDB"):
-        gentoolkit.query.PORTDB = PORTDB
+        gentoolkit.query.PORTDB = portdb
 
 
 def scan_upstream(query, on_progress=None):
