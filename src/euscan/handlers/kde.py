@@ -25,17 +25,17 @@ def clean_results(results):
 
 
 def scan_url(pkg, url, options):
-    results = generic.scan(pkg.cpv, url)
+    results = generic.scan_url(pkg, url, options)
 
-    if generic.startswith("mirror://kde/unstable/"):
-        url = generic.replace("mirror://kde/unstable/", "mirror://kde/stable/")
-        results += generic.scan(pkg.cpv, url)
+    if url.startswith("mirror://kde/unstable/"):
+        url = url.replace("mirror://kde/unstable/", "mirror://kde/stable/")
+        results += generic.scan_url(pkg, url, options)
 
     if not results:  # if nothing was found go brute forcing
         results = generic.brute_force(pkg.cpv, url)
 
-        if generic.startswith("mirror://kde/unstable/"):
-            url = generic.replace("mirror://kde/unstable/", "mirror://kde/stable/")
+        if url.startswith("mirror://kde/unstable/"):
+            url = url.replace("mirror://kde/unstable/", "mirror://kde/stable/")
             results += generic.brute_force(pkg.cpv, url)
 
     return clean_results(results)
