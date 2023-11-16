@@ -45,7 +45,7 @@ def handle_directory_patterns(base, file_pattern):
         fp = helpers.urlopen(basedir)
     except urllib.error.URLError:
         return []
-    except IOError:
+    except OSError:
         return []
 
     if not fp:

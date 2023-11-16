@@ -280,7 +280,7 @@ def urlallowed(url):
         try:
             rp.read()
             rpcache[baseurl] = rp
-        except IOError:
+        except OSError:
             rp = None
 
         setdefaulttimeout(timeout)
@@ -370,7 +370,7 @@ def tryurl(fileurl, template):
 
     except urllib.error.URLError:
         result = None
-    except IOError:
+    except OSError:
         result = None
 
     euscan.output.eend(errno.ENOENT if not result else 0)

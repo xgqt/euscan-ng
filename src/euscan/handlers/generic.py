@@ -112,7 +112,7 @@ def scan_directory_recursive(cp, ver, rev, url, steps, orig_url, options):
         fp = helpers.urlopen(url)
     except urllib.error.URLError:
         return []
-    except IOError:
+    except OSError:
         return []
 
     if not fp:

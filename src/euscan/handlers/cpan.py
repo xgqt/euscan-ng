@@ -128,7 +128,7 @@ def scan_pkg(pkg, options):
         fp = helpers.urlopen(url)
     except urllib.error.URLError:
         return []
-    except IOError:
+    except OSError:
         return []
 
     if not fp:
