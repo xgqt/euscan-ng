@@ -8,14 +8,11 @@ import re
 import urllib.error
 import urllib.parse
 import urllib.request
+import warnings
 from urllib.parse import urljoin, urlparse
 
-try:
-    from BeautifulSoup import BeautifulSoup
-except ImportError:
-    from bs4 import BeautifulSoup
-
 import portage
+from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 
 from euscan import (
     BRUTEFORCE_BLACKLIST_PACKAGES,
@@ -65,6 +62,7 @@ def confidence_score(found, original, minimum=CONFIDENCE):
 
 
 def scan_html(data, url, pattern):
+    warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
     soup = BeautifulSoup(data, features="lxml")
     results = []
 
