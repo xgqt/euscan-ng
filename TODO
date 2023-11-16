@@ -50,43 +50,6 @@ euscan
 - Propose new remote-id: freecode
   e.g.: <remote-id type="freecode">projectname</remote-id>
 
-
-euscanwww
----------
-
-### misc
-
-- Really fix mails: better formating
-- Always keep in db all found versions (when using an API only?). But don't display them if older than current packaged version, except maybe in the "upstream_version" column.
-
-### packages
-
-- Ignore alpha/beta if current is not alpha/beta: per-package setting using metadata.xml ?
-- ~arch / stable support: see "models: keywords"
-- stabilisation candidates: check stabilizations rules, and see how this can be automated
-- set upstream version by hand: will be done after uscan compatiblity
-
-### logs
-
-- Move log models into djeuscanhistory ?
-
-### models
-
-- Repository (added or not, from layman + repositories.xml)
-- Arches and Keyword
-- Metadata, herds, maintainers and homepage are per-version, not per package. Store it in Version instead.
-
-### djportage (LOW-PRIORITY))
-
-- Create standalone application to scan and represent portage trees in models using work done in:
--- euscan
--- p.g.o: https://github.com/bacher09/gentoo-packages
--- gentoostats: https://github.com/gg7/gentoostats_server/blob/master/gentoostats/stats/models.py
-
-The application should be easy to use, and we should be able to launch the scan process in a celery worker using "logging" for logs.
-The application should also be usable for p.g.o and gentoostats later...
-The scan process should be faster than the one using euscan. gentoo-packages have some interesting ideas for that (keeping metadata and ebuild hash, etc..)
-
 ### API (LOW-PRIORITY)
 
 - Move to tastypie
