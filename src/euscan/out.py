@@ -90,9 +90,9 @@ def transform_url(config, cpv, url):
 
 def to_ebuild_uri(cpv, url):
     cat, pkg, ver, rev = portage.catpkgsplit(cpv)
-    p = "%s-%s" % (pkg, ver)
-    pvr = "%s%s" % (ver, "-%s" % rev if rev != "r0" else "")
-    pf = "%s-%s" % (pkg, pvr)
+    p = f"{pkg}-{ver}"
+    pvr = f"{ver}{f'-{rev}' if rev != 'r0' else ''}"
+    pf = f"{pkg}-{pvr}"
     evars = (
         (p, "P"),
         (pkg, "PN"),
@@ -140,10 +140,8 @@ def to_mirror(url):
         for mirror_url in mirrors_[mirror_name]:
             if url.startswith(mirror_url):
                 url_part = url.split(mirror_url)[1]
-                return "mirror://%s%s%s" % (
-                    mirror_name,
-                    "" if url_part.startswith("/") else "/",
-                    url_part,
+                return "mirror://{}{}{}".format(
+                    mirror_name, "" if url_part.startswith("/") else "/", url_part
                 )
     return url
 
@@ -220,7 +218,7 @@ class EuscanOutput(object):
     def result(self, cp, version, urls, handler, confidence):
         from euscan.version import get_version_type
 
-        cpv = "%s-%s" % (cp, version)
+        cpv = f"{cp}-{version}"
         urls = " ".join(transform_url(self.config, cpv, url) for url in urls.split())
 
         if self.config["format"] in ["json", "dict"]:
@@ -239,13 +237,13 @@ class EuscanOutput(object):
                 print("Upstream Version:", pp.number("%s" % version), end=" ")
                 print(pp.path(" %s" % urls))
             else:
-                print(pp.cpv("%s-%s" % (cp, version)) + ":", pp.path(urls))
+                print(pp.cpv(f"{cp}-{version}") + ":", pp.path(urls))
 
     def metadata(self, key, value, show=True):
         if self.config["format"]:
             self.queries[self.current_query]["metadata"][key] = value
         elif show:
-            print("%s: %s" % (key.capitalize(), value))
+            print(f"{key.capitalize()}: {value}")
 
     def __getattr__(self, key):
         if not self.config["quiet"] and self.current_query is not None:

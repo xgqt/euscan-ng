@@ -71,7 +71,7 @@ def package_from_ebuild(ebuild):
         return False
 
     ebuild_split = ebuild.split("/")
-    cpv = "%s/%s" % (ebuild_split[-3], pf)
+    cpv = f"{ebuild_split[-3]}/{pf}"
 
     if not portage.catpkgsplit(cpv):
         return False

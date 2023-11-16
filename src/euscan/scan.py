@@ -134,7 +134,7 @@ def scan_upstream(query, on_progress=None):
 
     if not CONFIG["quiet"]:
         if not CONFIG["format"]:
-            pp.uprint(" * %s [%s]" % (pp.cpv(pkg.cpv), pp.section(pkg.repo_name())))
+            pp.uprint(f" * {pp.cpv(pkg.cpv)} [{pp.section(pkg.repo_name())}]")
             pp.uprint()
         else:
             output.metadata("overlay", pp.section(pkg.repo_name()))

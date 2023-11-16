@@ -157,7 +157,7 @@ def scan_url(pkg, urls, options, on_progress=None):
                 else:
                     output.eerror("Can't find a suitable handler!")
             except Exception as e:
-                output.ewarn("Handler failed: [%s] %s" % (e.__class__.__name__, str(e)))
+                output.ewarn(f"Handler failed: [{e.__class__.__name__}] {str(e)}")
 
             if versions and CONFIG["oneshot"]:
                 break

@@ -40,7 +40,7 @@ def scan_pkg(pkg, options):
         if helpers.version_filtered(cp, ver, pv):
             continue
         fp = urllib.request.urlopen(
-            "http://freecode.com/projects/%s/releases/%s" % (package, release_id)
+            f"http://freecode.com/projects/{package}/releases/{release_id}"
         )
         content = str(fp.read())
         download_page = re.findall(r'<a href="(/urls/[^"]+)"', content)[0]

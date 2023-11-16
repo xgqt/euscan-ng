@@ -44,12 +44,11 @@ def scan_url(pkg, url, options):
     fnre = re.compile("^%s$" % re.escape(filename).replace(re.escape(ver), "(.*?)"))
 
     output.einfo(
-        "Using github API for: project=%s user=%s filename=%s"
-        % (project, user, filename)
+        f"Using github API for: project={project} user={user} filename={filename}"
     )
 
     dlreq = urllib.request.urlopen(
-        "https://api.github.com/repos/%s/%s/downloads" % (user, project)
+        f"https://api.github.com/repos/{user}/{project}/downloads"
     )
     dls = json.load(dlreq)
 

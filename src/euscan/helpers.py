@@ -83,7 +83,7 @@ def version_is_nightly(a, b):
 
 def version_blacklisted(cp, version):
     rule = None
-    cpv = "%s-%s" % (cp, version)
+    cpv = f"{cp}-{version}"
 
     # Check that the generated cpv can be used by portage
     if not portage.versions.catpkgsplit(cpv):
@@ -95,7 +95,7 @@ def version_blacklisted(cp, version):
             None
 
     if rule:
-        euscan.output.einfo("%s is blacklisted by rule %s" % (cpv, rule))
+        euscan.output.einfo(f"{cpv} is blacklisted by rule {rule}")
     return rule is not None
 
 
@@ -264,7 +264,7 @@ def urlallowed(url):
     if protocol == "ftp":
         return True
 
-    baseurl = "%s://%s" % (protocol, domain)
+    baseurl = f"{protocol}://{domain}"
     robotsurl = urllib.parse.urljoin(baseurl, "robots.txt")
 
     if baseurl in rpcache:
@@ -290,7 +290,7 @@ def urlallowed(url):
 
 def urlopen(url, timeout=None, verb="GET"):
     if not urlallowed(url):
-        euscan.output.einfo("Url '%s' blocked by robots.txt" % url)
+        euscan.output.einfo(f"Url '{url}' blocked by robots.txt")
         return None
 
     if not timeout:

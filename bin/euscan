@@ -362,7 +362,7 @@ def main():
             exit_helper(1)
 
         except GentoolkitException as err:
-            output.eerror("%s: %s" % (query, str(err)))
+            output.eerror(f"{query}: {str(err)}")
             exit_helper(1)
 
         except Exception as err:
@@ -372,7 +372,7 @@ def main():
             traceback.print_exc(file=sys.stderr)
             print("-" * 60)
 
-            output.eerror("%s: %s" % (query, str(err)))
+            output.eerror(f"{query}: {str(err)}")
             exit_helper(1)
 
         if not ret and not CONFIG["quiet"]:

@@ -42,7 +42,7 @@ def scan_url(pkg, url, options):
     gem = guess_gem(pkg.cpv, url)
 
     if not gem:
-        output.eerror("Can't guess gem name using %s and %s" % (pkg.cpv, url))
+        output.eerror(f"Can't guess gem name using {pkg.cpv} and {url}")
         return []
 
     output.einfo("Using RubyGem API: %s" % gem)
@@ -75,7 +75,7 @@ def scan_pkg(pkg, options):
         pv = mangling.mangle_version(up_pv, options)
         if helpers.version_filtered(cp, ver, pv):
             continue
-        url = "http://rubygems.org/gems/%s-%s.gem" % (gem, up_pv)
+        url = f"http://rubygems.org/gems/{gem}-{up_pv}.gem"
         url = mangling.mangle_url(url, options)
         ret.append((url, pv, HANDLER_NAME, CONFIDENCE))
     return ret

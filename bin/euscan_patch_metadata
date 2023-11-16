@@ -30,10 +30,10 @@ def guess_indent_values(before):
     def guess_for_tags(tags):
         for tag in tags:
             for i in [0, 2, 4, 6, 8, 12, 16]:
-                if "\n%s<%s" % (" " * i, tag) in before:
+                if f"\n{' ' * i}<{tag}" in before:
                     return i, False
             for i in [0, 1, 2]:
-                if "\n%s<%s" % ("\t" * i, tag) in before:
+                if f"\n{'\t' * i}<{tag}" in before:
                     return i, True
         return -1, False
 
@@ -180,7 +180,7 @@ def patch_metadata(package, watch_data, diff=False):
                 if opt_name in valid:
                     if opt_name == "uversionmangle":
                         opt_name = "versionmangle"
-                    cleaned_opts.append('%s="%s"' % (opt_name, opt_value))
+                    cleaned_opts.append(f'{opt_name}="{opt_value}"')
             opts = " ".join(cleaned_opts)
 
         # clean url from useless stuff. Just keep <base> [<filepattern>]
@@ -188,14 +188,9 @@ def patch_metadata(package, watch_data, diff=False):
         url = " ".join([x for x in url_search.groups() if x is not None])
 
         if opts:
-            watch_tag = '%s<watch version="%s" %s>%s</watch>' % (
-                indent,
-                version,
-                opts,
-                url,
-            )
+            watch_tag = f'{indent}<watch version="{version}" {opts}>{url}</watch>'
         else:
-            watch_tag = '%s<watch version="%s">%s</watch>' % (indent, version, url)
+            watch_tag = f'{indent}<watch version="{version}">{url}</watch>'
         watch_tags.append(watch_tag)
 
     watch_tags = "\n".join(watch_tags)
@@ -203,11 +198,7 @@ def patch_metadata(package, watch_data, diff=False):
     if "<upstream>" in data:
         data = data.replace("<upstream>", "<upstream>\n%s" % watch_tags, 1)
     else:
-        rep = "%s<upstream>\n%s\n%s</upstream>\n</pkgmetadata>" % (
-            rindent,
-            watch_tags,
-            rindent,
-        )
+        rep = f"{rindent}<upstream>\n{watch_tags}\n{rindent}</upstream>\n</pkgmetadata>"
         data = data.replace("</pkgmetadata>", rep, 1)
 
     if not diff:

@@ -42,7 +42,7 @@ def scan_pkg(pkg, options):
     package = options["data"]
     channel = options["type"]
 
-    url = "http://%s.php.net/rest/r/%s/allreleases.xml" % (channel, package.lower())
+    url = f"http://{channel}.php.net/rest/r/{package.lower()}/allreleases.xml"
 
     output.einfo("Using: " + url)
 
@@ -69,7 +69,7 @@ def scan_pkg(pkg, options):
         if helpers.version_filtered(cp, ver, pv):
             continue
 
-        url = "http://%s.php.net/get/%s-%s.tgz" % (channel, package, up_pv)
+        url = f"http://{channel}.php.net/get/{package}-{up_pv}.tgz"
         url = mangling.mangle_url(url, options)
 
         ret.append((url, pv, HANDLER_NAME, CONFIDENCE))

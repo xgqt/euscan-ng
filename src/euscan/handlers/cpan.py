@@ -81,7 +81,7 @@ def mangle_version(up_pv):
     pv = ".".join(groups)
 
     if rc_part:
-        pv = "%s_rc%s" % (pv, rc_part)
+        pv = f"{pv}_rc{rc_part}"
 
     return pv
 
@@ -157,13 +157,7 @@ def scan_pkg(pkg, options):
             if helpers.version_filtered(cp, m_ver, m_pv, cpan_vercmp):
                 continue
 
-        url = "mirror://cpan/authors/id/%s/%s/%s/%s" % (
-            version["cpanid"][0],
-            version["cpanid"][0:1],
-            version["cpanid"],
-            version["archive"],
-        )
-
+        url = f"mirror://cpan/authors/id/{version['cpanid'][0]}/{version['cpanid'][0:1]}/{version['cpanid']}/{version['archive']}"
         url = mangling.mangle_url(url, options)
         ret.append((url, pv, HANDLER_NAME, CONFIDENCE))
 

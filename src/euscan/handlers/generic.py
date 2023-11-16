@@ -154,7 +154,7 @@ def scan_url(pkg, url, options):
     if CONFIG["scan-dir"]:
         for bu in SCANDIR_BLACKLIST_URLS:
             if re.match(bu, url):
-                output.einfo("%s is blacklisted by rule %s" % (url, bu))
+                output.einfo(f"{url} is blacklisted by rule {bu}")
                 return []
 
         resolved_url = helpers.parse_mirror(url)
@@ -167,14 +167,15 @@ def scan_url(pkg, url, options):
         if ver not in resolved_url:
             newver = helpers.version_change_end_sep(ver)
             if newver and newver in resolved_url:
-                output.einfo("Version: using %s instead of %s" % (newver, ver))
+                output.einfo(f"Version: using {newver} instead of {ver}")
                 ver = newver
 
         template = helpers.template_from_url(resolved_url, ver)
         if "${" not in template:
             output.einfo(
-                "Url doesn't seems to depend on version: %s not found in %s"
-                % (ver, resolved_url)
+                "Url doesn't seems to depend on version: {} not found in {}".format(
+                    ver, resolved_url
+                )
             )
             return []
         else:
@@ -201,12 +202,12 @@ def brute_force(pkg, url):
 
     for bp in BRUTEFORCE_BLACKLIST_PACKAGES:
         if re.match(bp, cp):
-            output.einfo("%s is blacklisted by rule %s" % (cp, bp))
+            output.einfo(f"{cp} is blacklisted by rule {bp}")
             return []
 
     for bp in BRUTEFORCE_BLACKLIST_URLS:
         if re.match(bp, url):
-            output.einfo("%s is blacklisted by rule %s" % (cp, bp))
+            output.einfo(f"{cp} is blacklisted by rule {bp}")
             return []
 
     output.einfo("Generating version from " + ver)
@@ -227,8 +228,7 @@ def brute_force(pkg, url):
 
     if "${PV}" not in template:
         output.einfo(
-            "Url doesn't seems to depend on full version: %s not found in %s"
-            % (ver, url)
+            f"Url doesn't seems to depend on full version: {ver} not found in {url}"
         )
         return []
     else:
