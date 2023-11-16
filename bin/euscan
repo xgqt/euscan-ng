@@ -199,7 +199,7 @@ def print_usage(_error=None, help=None):
         # turquoise("`man %s`" % __productname__), file=out)
 
 
-class ParseArgsException(Exception):
+class ParseArgsError(Exception):
     """For parseArgs() -> main() communications."""
 
     def __init__(self, value):
@@ -220,9 +220,9 @@ def parse_args():
         return_code = True
         for o, a in opts:
             if o in ("-h", "--help"):
-                raise ParseArgsException("help")
+                raise ParseArgsError("help")
             elif o in ("-V", "--version"):
-                raise ParseArgsException("version")
+                raise ParseArgsError("version")
             elif o in ("-C", "--nocolor"):
                 CONFIG["nocolor"] = True
                 pp.output.nocolor()
@@ -284,13 +284,13 @@ def parse_args():
     try:
         opts, args = getopt.getopt(sys.argv[1:], short_opts, long_opts)
     except getopt.GetoptError:
-        raise ParseArgsException(opts_mode + "-options")
+        raise ParseArgsError(opts_mode + "-options")
 
     # set options accordingly
     option_switch(opts)
 
     if len(args) < 1:
-        raise ParseArgsException("packages")
+        raise ParseArgsError("packages")
 
     return args
 
@@ -306,7 +306,7 @@ def main():
     # parse command line options and actions
     try:
         queries = parse_args()
-    except ParseArgsException as e:
+    except ParseArgsError as e:
         if e.value == "help":
             print_usage(help="all")
             exit_helper(0)
