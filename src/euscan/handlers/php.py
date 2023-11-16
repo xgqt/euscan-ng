@@ -20,7 +20,7 @@ def can_handle(pkg, url=None):
 
 
 def guess_package_and_channel(cp, url):
-    match = re.search("http://(.*)\.php\.net/get/(.*)-(.*).tgz", url)
+    match = re.search(r"http://(.*)\.php\.net/get/(.*)-(.*).tgz", url)
 
     if match:
         host = match.group(1)

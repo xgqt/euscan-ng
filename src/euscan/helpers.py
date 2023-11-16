@@ -383,9 +383,9 @@ def regex_from_template(template):
     regexp = re.escape(template)
 
     # Unescape specific stuff
-    regexp = regexp.replace("\$\{", "${")
-    regexp = regexp.replace("\}", "}")
-    regexp = regexp.replace("}\.$", "}.$")
+    regexp = regexp.replace(r"\$\{", "${")
+    regexp = regexp.replace(r"\}", "}")
+    regexp = regexp.replace(r"}\.$", "}.$")
 
     # Replace ${\d+}
     # regexp = regexp.replace('${0}', r'([\d]+?)')

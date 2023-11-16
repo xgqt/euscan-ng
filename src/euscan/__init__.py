@@ -74,13 +74,13 @@ BRUTEFORCE_BLACKLIST_URLS = [
 ROBOTS_TXT_BLACKLIST_DOMAINS = [
     "(.*)sourceforge(.*)",
     "(.*)github.com",
-    "(.*)qt\.nokia\.com(.*)",
-    "(.*)chromium\.org(.*)",
-    "(.*)nodejs\.org(.*)",
-    "(.*)download\.mono-project\.com(.*)",
-    "(.*)fedorahosted\.org(.*)",
-    "(.*)download\.tuxfamily\.org(.*)",
-    "(.*)festvox\.org(.*)",
+    r"(.*)qt\.nokia\.com(.*)",
+    r"(.*)chromium\.org(.*)",
+    r"(.*)nodejs\.org(.*)",
+    r"(.*)download\.mono-project\.com(.*)",
+    r"(.*)fedorahosted\.org(.*)",
+    r"(.*)download\.tuxfamily\.org(.*)",
+    r"(.*)festvox\.org(.*)",
 ]
 
 from euscan.out import EuscanOutput  # noqa: E402

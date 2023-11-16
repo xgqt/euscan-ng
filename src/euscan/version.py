@@ -22,7 +22,7 @@ def get_version_type(version):
     if "9999" in version or "99999999" in version:
         return "live"
 
-    for token in re.findall("[\._-]([a-zA-Z]+)", version):
+    for token in re.findall(r"[\._-]([a-zA-Z]+)", version):
         if token in gentoo_types:
             types.append(token)
     if types:

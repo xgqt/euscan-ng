@@ -74,7 +74,7 @@ def progress_bar():
 
 def clean_colors(string):
     if isinstance(string, str):
-        string = re.sub("\033\[[0-9;]+m", "", string)
+        string = re.sub(r"\033\[[0-9;]+m", "", string)
         string = re.sub(r"\\u001b\[[0-9;]+m", "", string)
         string = re.sub(r"\x1b\[[0-9;]+m", "", string)
     return string

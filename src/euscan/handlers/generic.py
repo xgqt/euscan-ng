@@ -122,7 +122,7 @@ def scan_directory_recursive(cp, ver, rev, url, steps, orig_url, options):
 
     results = []
 
-    if re.search(b"<\s*a\s+[^>]*href", data, re.I):
+    if re.search(rb"<\s*a\s+[^>]*href", data, re.I):
         results.extend(scan_html(data, url, pattern))
     elif url.startswith("ftp://"):
         results.extend(scan_ftp(data, url, pattern))

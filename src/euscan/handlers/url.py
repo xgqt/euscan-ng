@@ -24,7 +24,7 @@ def can_handle(*args):
 
 
 def handle_directory_patterns(base, file_pattern):
-    """
+    r"""
     Directory pattern matching
     e.g.: base: ftp://ftp.nessus.org/pub/nessus/nessus-([\d\.]+)/src/
           file_pattern: nessus-core-([\d\.]+)\.tar\.gz
