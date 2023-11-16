@@ -19,7 +19,7 @@ from euscan.helpers import dict_to_xml
 mirrors_ = None
 
 
-class ProgressHandler(object):
+class ProgressHandler:
     def __init__(self, progress_bar):
         self.curval = 0
         self.maxval = 0
@@ -152,17 +152,17 @@ class EOutputMem(EOutput):
     """
 
     def __init__(self, *args, **kwargs):
-        super(EOutputMem, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.out = StringIO()
 
     def getvalue(self):
         return self.out.getvalue()
 
     def _write(self, f, msg):
-        super(EOutputMem, self)._write(self.out, msg)
+        super()._write(self.out, msg)
 
 
-class EuscanOutput(object):
+class EuscanOutput:
     """
     Class that handles output for euscan
     """
