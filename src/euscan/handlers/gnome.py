@@ -20,7 +20,7 @@ HANDLER_NAME = "gnome"
 CONFIDENCE = 100
 PRIORITY = 90
 
-GNOME_URL_SOURCE = "http://ftp.gnome.org/pub/GNOME/sources"
+GNOME_URL_SOURCE = "https://download.gnome.org/sources"
 
 
 def can_handle(_pkg, url=None):
@@ -38,7 +38,7 @@ def guess_package(cp, url):
 
 
 def scan_url(pkg, url, options):
-    "http://ftp.gnome.org/pub/GNOME/sources/"
+    "https://download.gnome.org/sources/"
     package = {
         "data": guess_package(pkg.cpv, url),
         "type": "gnome",
