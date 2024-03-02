@@ -1,11 +1,13 @@
 # Copyright 2011 Corentin Chary <corentin.chary@gmail.com>
-# Copyright 2020-2023 src_prepare group
+# Copyright 2020-2024 src_prepare group
 # Distributed under the terms of the GNU General Public License v2
 
+import json
 import re
-import xmlrpc.client
+import urllib.error
 
 import portage
+from packaging.version import parse
 
 from euscan import helpers, mangling, output
 
@@ -29,7 +31,7 @@ def guess_package(cp, url):
 
 
 def scan_url(pkg, url, options):
-    "http://wiki.python.org/moin/PyPiXmlRpc"
+    "https://peps.python.org/pep-0691/"
 
     package = guess_package(pkg.cpv, url)
     return scan_pkg(pkg, {"data": package})
@@ -38,15 +40,23 @@ def scan_url(pkg, url, options):
 def scan_pkg(pkg, options):
     package = options["data"]
 
-    output.einfo("Using PyPi XMLRPC: " + package)
+    output.einfo("Using PyPi JSON API: " + package)
 
-    client = xmlrpc.client.ServerProxy("https://pypi.python.org/pypi")
-    versions = client.package_releases(package)
+    try:
+        fp = helpers.urlopen(f"https://pypi.org/pypi/{package}/json/")
+    except urllib.error.URLError:
+        return []
+    except OSError:
+        return []
 
-    if not versions:
-        return versions
+    if not fp:
+        return []
 
-    versions.reverse()
+    data = json.loads(fp.read())
+
+    versions = list(data["releases"].keys())
+
+    versions.sort(key=parse, reverse=True)
 
     cp, ver, rev = portage.pkgsplit(pkg.cpv)
 
@@ -55,7 +65,12 @@ def scan_pkg(pkg, options):
         pv = mangling.mangle_version(up_pv, options)
         if helpers.version_filtered(cp, ver, pv):
             continue
-        urls = client.release_urls(package, up_pv)
-        urls = " ".join([mangling.mangle_url(infos["url"], options) for infos in urls])
+        urls = " ".join(
+            [
+                mangling.mangle_url(file["url"], options)
+                for file in data["releases"][up_pv]
+                if file["packagetype"] == "sdist"
+            ]
+        )
         ret.append((urls, pv, HANDLER_NAME, CONFIDENCE))
     return ret

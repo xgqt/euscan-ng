@@ -16,7 +16,8 @@ description = "Ebuild upstream scan utility."
 license = {text = "GPL-2.0"}
 dependencies = [
     "portage",
-    "beautifulsoup4>=4.8.2"
+    "beautifulsoup4>=4.8.2",
+    "packaging"
 ]
 dynamic = ["version"]
 
