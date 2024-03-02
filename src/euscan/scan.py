@@ -153,6 +153,9 @@ def scan_upstream(query, on_progress=None):
     else:
         uris = pkg.environment("SRC_URI")
 
+    # Roundabout way to handle $'' strings
+    uris = uris.encode("raw_unicode_escape").decode("unicode_escape")
+
     cpv = pkg.cpv
 
     uris = parse_src_uri(uris)
