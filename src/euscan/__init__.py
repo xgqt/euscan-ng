@@ -53,6 +53,11 @@ BLACKLIST_PACKAGES = [
 SCANDIR_BLACKLIST_URLS = [
     "mirror://rubygems/(.*)",  # Not browsable
     "mirror://gentoo/(.*)",  # Directory too big
+    "https://dev.gentoo.org/(.*)",  # There shouldn't be releases here
+    # Waste of time to go through
+    "https://crates.io/(.*)",
+    "https://api.nuget.org/(.*)",
+    "https://myget.org/(.*)",
 ]
 
 BRUTEFORCE_BLACKLIST_PACKAGES = [
