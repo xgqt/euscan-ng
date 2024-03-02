@@ -55,7 +55,7 @@ def scan_pkg(pkg, options):
     content = fp.read()
     fp.close()
 
-    cache = json.loads(content, encoding="ascii")
+    cache = json.loads(content)
 
     if cache[0] != 4:
         output.eerror("Unknow cache format detected")
