@@ -41,10 +41,3 @@ euscan
 
 - remote-id type deb repository:
 -- find out how to get download url (not sure it's possible)
-
-### remote-id
-- Propose new remote-id: deb
-  e.g.: <remote-id type="deb">
-            http://mysite.com/deb/dists/stable/main/binary-i386/Packages
-        </remote-id>
-
