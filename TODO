@@ -47,6 +47,4 @@ euscan
   e.g.: <remote-id type="deb">
             http://mysite.com/deb/dists/stable/main/binary-i386/Packages
         </remote-id>
-- Propose new remote-id: freecode
-  e.g.: <remote-id type="freecode">projectname</remote-id>
 
