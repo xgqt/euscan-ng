@@ -1,5 +1,5 @@
 # Copyright 2011 Corentin Chary <corentin.chary@gmail.com>
-# Copyright 2020-2023 src_prepare group
+# Copyright 2020-2024 src_prepare group
 # Distributed under the terms of the GNU General Public License v2
 
 import json
@@ -18,11 +18,11 @@ PRIORITY = 90
 
 
 def can_handle(pkg, url=None):
-    return url and url.startswith("mirror://rubygems/")
+    return url and url.startswith("https://rubygems.org/")
 
 
 def guess_gem(cpv, url):
-    match = re.search("mirror://rubygems/(.*).gem", url)
+    match = re.search("https://rubygems.org/gems/(.*).gem", url)
     if match:
         cpv = "fake/%s" % match.group(1)
 
