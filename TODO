@@ -41,3 +41,8 @@ euscan
 
 - remote-id type deb repository:
 -- find out how to get download url (not sure it's possible)
+
+### bugs or unwanted behavior
+
+- Parsing docs and accepting 404's
+-- net-analyzer/sensu
