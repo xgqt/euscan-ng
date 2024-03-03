@@ -17,11 +17,11 @@ PRIORITY = 90
 
 
 def can_handle(pkg, url=None):
-    return url and url.startswith("mirror://pypi/")
+    return url and url.startswith("https://files.pythonhosted.org/packages/source/p/")
 
 
 def guess_package(cp, url):
-    match = re.search(r"mirror://pypi/\w+/(.*)/.*", url)
+    match = re.search(r"https://files.pythonhosted.org/packages/source/p/(.*)/.*", url)
     if match:
         return match.group(1)
 
